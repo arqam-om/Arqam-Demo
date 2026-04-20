@@ -1,4 +1,4 @@
-/* Arqam — Design Tokens (Dark mode only, RTL-native) */
+/* Arqam - Design Tokens (Dark mode only, RTL-native) */
 :root {
   /* ── Backgrounds ── */
   --bg-base:      #070E0C;
@@ -68,7 +68,7 @@
   /* ── Layout ── */
   --sidebar-w:           272px;
   --sidebar-w-collapsed: 64px;
-  --topbar-h:            62px;
+  --topbar-h:            54px;
   --max-content:         1440px;
 
   /* ── Typography heads ── */
@@ -297,9 +297,13 @@ body { min-height: 100vh; background: var(--bg-base); color: var(--text-primary)
   background: linear-gradient(135deg, var(--primary-900), var(--bg-surface-3));
   color: var(--primary-300);
   display: inline-flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 13px; flex-shrink: 0;
+  font-weight: 700; font-size: 13px;
+  line-height: 1;
+  flex-shrink: 0;
   border: 1px solid rgba(42,157,147,0.2);
   box-shadow: 0 0 0 2px rgba(42,157,147,0.08);
+  text-align: center;
+  overflow: hidden;
 }
 .avatar.sm { width: 26px; height: 26px; font-size: 11px; }
 .avatar.md { width: 42px; height: 42px; font-size: 16px; }
@@ -307,6 +311,7 @@ body { min-height: 100vh; background: var(--bg-base); color: var(--text-primary)
 .avatar.xl { width: 84px; height: 84px; font-size: 26px; }
 
 /* ── Table ── */
+.tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tbl { width: 100%; border-collapse: separate; border-spacing: 0; }
 .tbl th, .tbl td { padding: 15px 14px; text-align: start; font-size: 14px; }
 .tbl thead th {

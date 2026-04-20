@@ -21,7 +21,7 @@ export function TeacherHome({ nav, setCourseId }: TBag) {
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.ClipboardList} label="واجبات تحتاج تصحيحاً" value="17" sub="موزعة على 3 شعب" accent="var(--warning-500)" onClick={()=>nav('grading')}/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.BookOpen} label="الدروس المسودّة" value="5" sub="تحتاج نشراً"/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Users} label="إجمالي طلابك" value="88" sub="في 4 شعب"/></div>
-        <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Clock} label="حصصك اليوم" value="6" sub="القادمة: 11أ — 08:15"/></div>
+        <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Clock} label="حصصك اليوم" value="6" sub="القادمة: 11أ - 08:15"/></div>
       </div>
 
       <div className="row gap-5 wrap items-start">
@@ -29,10 +29,10 @@ export function TeacherHome({ nav, setCourseId }: TBag) {
           <div className="section-head"><h2>شعبك التدريسية</h2><button className="btn link" onClick={()=>nav('courses')}>عرض الكل</button></div>
           <div className="col gap-3">
             {[
-              {id:'c1', n:'التربية الإسلامية 1 — الصف 11أ', k:'22 طالب · 7 دروس منشورة · 3 واجبات', p:7, warn:'3 طلاب لم يسلّموا'},
-              {id:'c1b', n:'التربية الإسلامية 1 — الصف 11ب', k:'22 طالب · 7 دروس منشورة · 3 واجبات', p:6, warn:null},
-              {id:'c1c', n:'التربية الإسلامية 2 — الصف 11أ', k:'22 طالب · 6 دروس منشورة · 2 واجبات', p:9, warn:null},
-              {id:'c1d', n:'التربية الإسلامية 2 — الصف 11ب', k:'22 طالب · 6 دروس منشورة · 2 واجبات', p:5, warn:null},
+              {id:'c1', n:'التربية الإسلامية 1 - الصف 11أ', k:'22 طالب · 7 دروس منشورة · 3 واجبات', p:7, warn:'3 طلاب لم يسلّموا'},
+              {id:'c1b', n:'التربية الإسلامية 1 - الصف 11ب', k:'22 طالب · 7 دروس منشورة · 3 واجبات', p:6, warn:null},
+              {id:'c1c', n:'التربية الإسلامية 2 - الصف 11أ', k:'22 طالب · 6 دروس منشورة · 2 واجبات', p:9, warn:null},
+              {id:'c1d', n:'التربية الإسلامية 2 - الصف 11ب', k:'22 طالب · 6 دروس منشورة · 2 واجبات', p:5, warn:null},
             ].map((c,i) => (
               <div key={i} className="card clickable" style={{padding:14}} onClick={()=>{setCourseId('c1'); nav('course');}}>
                 <div className="row between items-center gap-3">
@@ -75,10 +75,14 @@ export function TeacherHome({ nav, setCourseId }: TBag) {
             .filter(({ cell }) => cell.t?.includes('الحارثي'))
             .map(({ p, cell }) => (
               <div key={p.n} className="row gap-3 items-center" style={{padding:'12px 14px', borderRadius:8, background: cell.now?'var(--primary-900)':'var(--bg-surface-2)'}}>
-                <div className="num" style={{width:48, fontSize:13, color:'var(--text-secondary)', fontWeight:600}}>{p.time}</div>
+                <div className="num" style={{width:104, fontSize:13, color:'var(--text-secondary)', fontWeight:600, display:'inline-flex', alignItems:'center', gap:6, direction:'ltr'}}>
+                  <span>{p.time}</span>
+                  <span style={{opacity:0.4, fontWeight:400}}>│</span>
+                  <span>{p.end}</span>
+                </div>
                 <div style={{width:28, height:28, borderRadius:6, background:'var(--primary-500)', color:'var(--text-inverse)', display:'grid', placeItems:'center', fontSize:12, fontWeight:700, fontFamily:'Inter'}}>{p.n}</div>
                 <div className="col grow" style={{gap:2}}>
-                  <div style={{fontSize:14, fontWeight:600}}>{cell.s} — الصف 11أ</div>
+                  <div style={{fontSize:14, fontWeight:600}}>{cell.s} - الصف 11أ</div>
                   <div style={{fontSize:12, color:'var(--text-tertiary)'}}>قاعة 204</div>
                 </div>
                 {cell.now && <Pill kind="accent">الآن</Pill>}
@@ -92,15 +96,15 @@ export function TeacherHome({ nav, setCourseId }: TBag) {
 
 export function TeacherCourses({ nav, setCourseId }: TBag) {
   const courses = [
-    {id:'c1',  n:'التربية الإسلامية 1 — الصف 11أ', s:22, l:7, a:3, g:7,  avg:82},
-    {id:'c1b', n:'التربية الإسلامية 1 — الصف 11ب', s:22, l:7, a:3, g:6,  avg:84},
-    {id:'c2a', n:'التربية الإسلامية 2 — الصف 11أ', s:22, l:6, a:2, g:9,  avg:86},
-    {id:'c2b', n:'التربية الإسلامية 2 — الصف 11ب', s:22, l:6, a:2, g:5,  avg:85},
+    {id:'c1',  n:'التربية الإسلامية 1 - الصف 11أ', s:22, l:7, a:3, g:7,  avg:82},
+    {id:'c1b', n:'التربية الإسلامية 1 - الصف 11ب', s:22, l:7, a:3, g:6,  avg:84},
+    {id:'c2a', n:'التربية الإسلامية 2 - الصف 11أ', s:22, l:6, a:2, g:9,  avg:86},
+    {id:'c2b', n:'التربية الإسلامية 2 - الصف 11ب', s:22, l:6, a:2, g:5,  avg:85},
   ];
   return (
     <div className="col gap-5">
       <div className="page-header">
-        <div><h1 className="page-title">موادي التدريسية</h1><p className="page-sub">4 شعب — 88 طالب — الفصل الدراسي الثاني</p></div>
+        <div><h1 className="page-title">موادي التدريسية</h1><p className="page-sub">4 شعب - 88 طالب - الفصل الدراسي الثاني</p></div>
       </div>
       <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(320px, 1fr))', gap:16}}>
         {courses.map(c => (
@@ -130,10 +134,10 @@ export function TeacherCourseWorkspace({ nav }: TBag) {
   const [tab, setTab] = useState('lessons');
   return (
     <div className="col gap-5">
-      <Breadcrumbs items={[{label:'مواد التدريس', onClick:()=>nav('courses')},{label:'التربية الإسلامية 1 — الصف 11أ'}]}/>
+      <Breadcrumbs items={[{label:'مواد التدريس', onClick:()=>nav('courses')},{label:'التربية الإسلامية 1 - الصف 11أ'}]}/>
       <div className="page-header">
         <div>
-          <h1 className="page-title">التربية الإسلامية 1 — الصف 11أ</h1>
+          <h1 className="page-title">التربية الإسلامية 1 - الصف 11أ</h1>
           <p className="page-sub"><span className="num">22</span> طالب · متوسط الشعبة <span className="num band-mid-high">82%</span></p>
         </div>
         <div className="row gap-2">
@@ -234,7 +238,7 @@ function TeacherStudentsTab() {
             <tr key={s.id}>
               <td className="row gap-3 items-center"><div className="avatar sm">{s.initial}</div><span>{s.short}</span></td>
               <td><span className={'num ' + (s.avg>=85?'band-high':s.avg>=75?'band-mid-high':s.avg>=65?'band-mid':'band-low')} style={{fontWeight:700}}>{s.avg}%</span></td>
-              <td className="num">{s.missing?'1/2':'2/2'}</td>
+              <td><span className="num">{s.missing?'1/2':'2/2'}</span></td>
               <td><span className="num">{s.rank}</span> من <span className="num">22</span></td>
               <td><button className="arq-iconbtn sm" aria-label="عرض الطالب"><Icon.Eye size={14}/></button></td>
             </tr>
@@ -271,7 +275,7 @@ export function LessonComposer({ nav }: TBag) {
     <div className="col gap-5">
       <Breadcrumbs items={[
         {label:'موادي', onClick:()=>nav('courses')},
-        {label:'التربية الإسلامية 1 — الصف 11أ', onClick:()=>nav('course')},
+        {label:'التربية الإسلامية 1 - الصف 11أ', onClick:()=>nav('course')},
         {label:'درس جديد'}
       ]}/>
       <div className="page-header">
@@ -314,7 +318,7 @@ export function LessonComposer({ nav }: TBag) {
               ))}
               <label className="dropzone" style={{padding:16}}>
                 <Icon.Upload size={20}/>
-                <div style={{fontSize:13}}>إضافة ملف PDF — الحد الأقصى <span className="num">20 MB</span></div>
+                <div style={{fontSize:13}}>إضافة ملف PDF - الحد الأقصى <span className="num">20 MB</span></div>
               </label>
             </div>
           </div>
@@ -366,7 +370,7 @@ export function AssignmentComposer({ nav }: TBag) {
     <div className="col gap-5">
       <Breadcrumbs items={[
         {label:'موادي', onClick:()=>nav('courses')},
-        {label:'التربية الإسلامية 1 — الصف 11أ', onClick:()=>nav('course')},
+        {label:'التربية الإسلامية 1 - الصف 11أ', onClick:()=>nav('course')},
         {label:'واجب جديد'}
       ]}/>
       <div className="page-header">
@@ -379,11 +383,11 @@ export function AssignmentComposer({ nav }: TBag) {
       <div className="row gap-5 items-start wrap">
         <div className="card grow" style={{flex:'2 1 520px'}}>
           <div className="col gap-4">
-            <div className="field"><label>عنوان الواجب</label><input className="input" defaultValue="الواجب الرابع — تحليل حديث نبوي"/></div>
+            <div className="field"><label>عنوان الواجب</label><input className="input" defaultValue="الواجب الرابع - تحليل حديث نبوي"/></div>
             <div className="field"><label>التعليمات التفصيلية</label><textarea className="textarea" rows={6} defaultValue="اختر حديثاً نبوياً شريفاً من الأربعين النووية، وحلّله من ثلاث جوانب: (1) درجته، (2) شرح معناه، (3) تطبيقه في حياة المسلم اليومية. لا يقل البحث عن 400 كلمة."/></div>
             <div className="field"><label>الشروط (اختياري)</label><textarea className="textarea" rows={2} defaultValue="يُرفع الواجب بصيغة PDF. الحد الأقصى لحجم الملف 10 ميجابايت."/></div>
             <div className="row gap-4 wrap">
-              <div className="field grow"><label>الموعد النهائي</label><input className="input latin" defaultValue="2025-10-12 — 23:59"/></div>
+              <div className="field grow"><label>الموعد النهائي</label><input className="input latin" defaultValue="2025-10-12 - 23:59"/></div>
               <div className="field grow"><label>الدرجة القصوى</label><input className="input num" defaultValue="25"/></div>
             </div>
           </div>
@@ -467,7 +471,7 @@ export function GradeBook() {
                         <input className="gb-editor" autoFocus defaultValue={v||''}
                           onBlur={(e)=>{ const v2 = +(e.target as HTMLInputElement).value || 0; setVals({...vals, [String(s.id)+c.key]: v2}); setEditing(null); }}
                           onKeyDown={(e)=>{ if (e.key==='Enter') (e.target as HTMLInputElement).blur(); if (e.key==='Escape') setEditing(null); }}/>
-                      ) : c.pending ? <span>—</span> : isMissing ? <span>غائب</span> : <>{isLate && <span className="late-dot"/>}<span className="num" style={{fontWeight:600}}>{v ?? '—'}</span></>}
+                      ) : c.pending ? <span>-</span> : isMissing ? <span>غائب</span> : <>{isLate && <span className="late-dot"/>}<span className="num" style={{fontWeight:600}}>{v ?? '-'}</span></>}
                     </td>
                   );
                 })}
@@ -509,8 +513,8 @@ export function SubmissionInbox({ nav }: TBag) {
     <div className="col gap-4">
       <Breadcrumbs items={[
         {label:'موادي', onClick:()=>nav('courses')},
-        {label:'التربية الإسلامية 1 — الصف 11أ', onClick:()=>nav('course')},
-        {label:'الواجب الثالث — التسليمات'}
+        {label:'التربية الإسلامية 1 - الصف 11أ', onClick:()=>nav('course')},
+        {label:'الواجب الثالث - التسليمات'}
       ]}/>
       <div className="page-header">
         <div>
@@ -559,14 +563,14 @@ export function SubmissionInbox({ nav }: TBag) {
               <div className="pdf-preview" style={{flex:1, minHeight:300}}>
                 <Icon.FileText size={48}/>
                 <div style={{fontSize:14}} className="latin">بحث_التوحيد_{cur.short.split(' ')[1]||'طالب'}.pdf</div>
-                <div style={{fontSize:12, color:'var(--text-tertiary)'}}>معاينة ملف PDF — <span className="num">3.7 MB</span> · <span className="num">7</span> صفحات</div>
+                <div style={{fontSize:12, color:'var(--text-tertiary)'}}>معاينة ملف PDF - <span className="num">3.7 MB</span> · <span className="num">7</span> صفحات</div>
                 <div className="row gap-2 mt-3"><button className="btn secondary sm">صفحة سابقة</button><span style={{fontSize:13}} className="num">1 / 7</span><button className="btn secondary sm">صفحة تالية</button></div>
               </div>
             </div>
             <div className="card">
               <h3 style={{margin:'0 0 12px', fontSize:14, fontWeight:600}}>التصحيح</h3>
               <div className="row gap-3 items-end wrap">
-                <div className="field" style={{flex:'0 0 140px'}}><label>الدرجة (من <span className="num">30</span>)</label><input className="input num" value={grade} onChange={e=>setGrade(e.target.value)} placeholder="—"/></div>
+                <div className="field" style={{flex:'0 0 140px'}}><label>الدرجة (من <span className="num">30</span>)</label><input className="input num" value={grade} onChange={e=>setGrade(e.target.value)} placeholder="-"/></div>
                 <div className="field grow" style={{minWidth:260}}><label>ملاحظة للطالب (اختياري)</label><textarea className="textarea" rows={3} value={feedback} onChange={e=>setFeedback(e.target.value)} placeholder="اكتب ملاحظة قصيرة للطالب…"/></div>
                 <div className="row gap-2">
                   <button className="btn secondary">حفظ كمسودّة</button>
@@ -587,7 +591,7 @@ export function GradeReleaseScreen({ nav }: TBag) {
     <div className="col gap-5">
       <Breadcrumbs items={[
         {label:'موادي', onClick:()=>nav('courses')},
-        {label:'التربية الإسلامية 1 — الصف 11أ', onClick:()=>nav('course')},
+        {label:'التربية الإسلامية 1 - الصف 11أ', onClick:()=>nav('course')},
         {label:'اعتماد ونشر الدرجات'}
       ]}/>
       <div className="page-header">
@@ -609,14 +613,14 @@ export function GradeReleaseScreen({ nav }: TBag) {
               {n:'سيف الخروصي',  i:'س', s:'مصحّح', g:'25/30', p:83, color:'band-mid-high'},
               {n:'طارق المقبالي',i:'ط', s:'مصحّح', g:'29/30', p:97, color:'band-high'},
               {n:'سعود الحبسي', i:'س', s:'مصحّح', g:'24/30', p:80, color:'band-mid-high'},
-              {n:'خالد الزدجالي',i:'خ', s:'متأخر — بانتظار', g:'—', p:null, color:''},
-              {n:'عمر الحجري',   i:'ع', s:'بانتظار', g:'—', p:null, color:''},
+              {n:'خالد الزدجالي',i:'خ', s:'متأخر - بانتظار', g:'-', p:null, color:''},
+              {n:'عمر الحجري',   i:'ع', s:'بانتظار', g:'-', p:null, color:''},
             ].map((r,i) => (
               <tr key={i}>
                 <td className="row gap-2 items-center"><div className="avatar sm">{r.i}</div><span>{r.n}</span></td>
                 <td>{r.s.includes('مصحّح')?<Pill kind="graded">مصحّح</Pill>:<Pill kind="pending">{r.s}</Pill>}</td>
                 <td><span className="num" style={{fontWeight:600}}>{r.g}</span></td>
-                <td>{r.p!==null ? <span className={'num '+r.color} style={{fontWeight:700}}>{r.p}%</span> : <span style={{color:'var(--text-tertiary)'}}>—</span>}</td>
+                <td>{r.p!==null ? <span className={'num '+r.color} style={{fontWeight:700}}>{r.p}%</span> : <span style={{color:'var(--text-tertiary)'}}>-</span>}</td>
               </tr>
             ))}
           </tbody>
@@ -673,24 +677,47 @@ export function TeacherTimetable() {
       <div className="page-header"><div><h1 className="page-title">جدولي الأسبوعي</h1><p className="page-sub">4 شعب · 24 حصة أسبوعياً</p></div></div>
       <div style={{overflow:'auto'}}>
         <table className="timetable">
-          <thead><tr><th style={{width:80}}>الحصة</th>{D.days.map(d => <th key={d}>{d}</th>)}</tr></thead>
+          <thead><tr><th style={{width:108}}>الحصة</th>{D.days.map(d => <th key={d}>{d}</th>)}</tr></thead>
           <tbody>
             {D.periods.map((p, pi) => (
-              <tr key={p.n}>
-                <td className="period-h"><div className="col" style={{gap:2}}><div className="num" style={{fontWeight:700}}>{p.n}</div><div style={{fontSize:11, color:'var(--text-tertiary)'}} className="num">{p.time}</div></div></td>
-                {D.days.map((d, di) => {
-                  const cell = D.timetable11A[di][pi];
-                  const mine = cell.t?.includes('الحارثي');
-                  return (
-                    <td key={d}>
-                      <div className={'tt-cell'+(mine?' hero':'')+(cell.now&&mine?' now':'')+(mine?'':' flex')}>
-                        <div className="subj">{mine ? cell.s : '—'}</div>
-                        {mine && <div className="teach" style={{color:'var(--primary-300)', opacity:0.85}}>الصف 11أ · قاعة 204</div>}
+              <React.Fragment key={p.n}>
+                {pi === 4 && (
+                  <tr className="break-row">
+                    <td className="period-h break-time">
+                      <div className="num" style={{fontSize:10, color:'var(--accent-500)', display:'inline-flex', alignItems:'center', gap:4, direction:'ltr', justifyContent:'center'}}>
+                        <span>{D.breakPeriod.from}</span>
+                        <span style={{opacity:0.5}}>│</span>
+                        <span>{D.breakPeriod.to}</span>
                       </div>
                     </td>
-                  );
-                })}
-              </tr>
+                    <td colSpan={D.days.length} className="break-label">{D.breakPeriod.label}</td>
+                  </tr>
+                )}
+                <tr>
+                  <td className="period-h">
+                    <div className="col center" style={{gap:3}}>
+                      <div className="num" style={{fontWeight:700, fontSize:14}}>{p.n}</div>
+                      <div className="num" style={{fontSize:10, color:'var(--text-tertiary)', display:'inline-flex', alignItems:'center', gap:4, direction:'ltr'}}>
+                        <span>{p.time}</span>
+                        <span style={{opacity:0.45}}>│</span>
+                        <span>{p.end}</span>
+                      </div>
+                    </div>
+                  </td>
+                  {D.days.map((d, di) => {
+                    const cell = D.timetable11A[di][pi];
+                    const mine = cell.t?.includes('الحارثي');
+                    return (
+                      <td key={d}>
+                        <div className={'tt-cell'+(mine?' hero':'')+(cell.now&&mine?' now':'')+(mine?'':' flex')}>
+                          <div className="subj">{mine ? cell.s : '-'}</div>
+                          {mine && <div className="teach" style={{color:'var(--primary-300)', opacity:0.85}}>الصف 11أ · قاعة 204</div>}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              </React.Fragment>
             ))}
           </tbody>
         </table>
@@ -738,14 +765,14 @@ export function TeacherProfile() {
 
 export function TeacherGradingList({ nav }: TBag) {
   const items = [
-    { c:'التربية الإسلامية 1 — 11أ', a:'الواجب الثالث — بحث في التوحيد', n:7 },
-    { c:'التربية الإسلامية 1 — 11ب', a:'الواجب الثالث — بحث في التوحيد', n:6 },
-    { c:'التربية الإسلامية 2 — 11أ', a:'مقال قصير عن العبادات',          n:9 },
-    { c:'التربية الإسلامية 2 — 11ب', a:'مقال قصير عن العبادات',          n:5 },
+    { c:'التربية الإسلامية 1 - 11أ', a:'الواجب الثالث - بحث في التوحيد', n:7 },
+    { c:'التربية الإسلامية 1 - 11ب', a:'الواجب الثالث - بحث في التوحيد', n:6 },
+    { c:'التربية الإسلامية 2 - 11أ', a:'مقال قصير عن العبادات',          n:9 },
+    { c:'التربية الإسلامية 2 - 11ب', a:'مقال قصير عن العبادات',          n:5 },
   ];
   return (
     <div className="col gap-5">
-      <div className="page-header"><div><h1 className="page-title">للتصحيح</h1><p className="page-sub"><span className="num">27</span> تسليمات بانتظارك — موزّعة على 4 شعب</p></div></div>
+      <div className="page-header"><div><h1 className="page-title">للتصحيح</h1><p className="page-sub"><span className="num">27</span> تسليمات بانتظارك - موزّعة على 4 شعب</p></div></div>
       <div className="col gap-3">
         {items.map((it,i) => (
           <div key={i} className="card clickable" onClick={()=>nav('inbox')}>

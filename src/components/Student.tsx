@@ -28,7 +28,7 @@ export function StudentHome({ nav }: SBag) {
       </div>
 
       <div className="row gap-4 wrap">
-        <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Clock} label="حصصك اليوم" value="8" sub="تبدأ 07:30" onClick={()=>nav('timetable')}/></div>
+        <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Clock} label="حصصك اليوم" value="8" sub="تبدأ 07:05" onClick={()=>nav('timetable')}/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.ClipboardList} label="واجبات معلّقة" value="2" sub="الأقرب: بعد 3 أيام" accent="var(--warning-500)" onClick={()=>nav('assignments')}/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Award} label="درجات جديدة" value="3" sub="آخرها: التربية الإسلامية 1" onClick={()=>nav('grades')}/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Megaphone} label="إعلانات جديدة" value="2" sub="آخرها: جدول الاختبارات" onClick={()=>nav('announcements')}/></div>
@@ -39,15 +39,27 @@ export function StudentHome({ nav }: SBag) {
           <div className="section-head"><h2>جدول اليوم</h2><button className="btn link" onClick={()=>nav('timetable')}>عرض الجدول الكامل</button></div>
           <div className="col gap-2">
             {D.periods.map((p,i) => (
-              <div key={i} style={{display:'flex', alignItems:'center', gap:12, padding:'10px 12px', borderRadius:8, background: i===1?'var(--accent-900)':'transparent'}}>
-                <div className="num" style={{width:56, fontSize:14, fontWeight:600, color:'var(--text-secondary)'}}>{p.time}</div>
-                <div style={{width:28, height:28, borderRadius:6, background: i===1?'var(--accent-500)':'var(--bg-surface-3)', color: i===1?'var(--text-inverse)':'var(--text-secondary)', display:'grid', placeItems:'center', fontSize:12, fontWeight:700, fontFamily:'Inter'}}>{p.n}</div>
-                <div className="col grow" style={{gap:2}}>
-                  <div style={{fontSize:14, fontWeight:500}}>{todayPeriods[i].s}</div>
-                  <div style={{fontSize:12, color:'var(--text-tertiary)'}}>{todayPeriods[i].t}</div>
+              <React.Fragment key={i}>
+                {i === 4 && (
+                  <div className="break-chip">
+                    <span className="num">{D.breakPeriod.from} – {D.breakPeriod.to}</span>
+                    <span>{D.breakPeriod.label}</span>
+                  </div>
+                )}
+                <div style={{display:'flex', alignItems:'center', gap:12, padding:'10px 12px', borderRadius:8, background: i===1?'var(--accent-900)':'transparent'}}>
+                  <div className="num" style={{width:104, fontSize:13, fontWeight:600, color:'var(--text-secondary)', display:'inline-flex', alignItems:'center', gap:6, direction:'ltr'}}>
+                    <span>{p.time}</span>
+                    <span style={{opacity:0.4, fontWeight:400}}>│</span>
+                    <span>{p.end}</span>
+                  </div>
+                  <div style={{width:28, height:28, borderRadius:6, background: i===1?'var(--accent-500)':'var(--bg-surface-3)', color: i===1?'var(--text-inverse)':'var(--text-secondary)', display:'grid', placeItems:'center', fontSize:12, fontWeight:700, fontFamily:'Inter'}}>{p.n}</div>
+                  <div className="col grow" style={{gap:2}}>
+                    <div style={{fontSize:14, fontWeight:500}}>{todayPeriods[i].s}</div>
+                    <div style={{fontSize:12, color:'var(--text-tertiary)'}}>{todayPeriods[i].t}</div>
+                  </div>
+                  {i===1 && <Pill kind="accent">الآن</Pill>}
                 </div>
-                {i===1 && <Pill kind="accent">الآن</Pill>}
-              </div>
+              </React.Fragment>
             ))}
           </div>
         </div>
@@ -56,9 +68,9 @@ export function StudentHome({ nav }: SBag) {
           <div className="section-head"><h2>الواجبات القادمة</h2></div>
           <div className="col gap-3">
             {[
-              {t:'الواجب الثالث — بحث في مفهوم التوحيد', c:'التربية الإسلامية 1', d:'بعد 3 أيام', warn:true},
-              {t:'واجب الكيمياء — تقرير التجربة', c:'الكيمياء', d:'بعد 5 أيام', warn:false},
-              {t:'واجب اللغة الإنجليزية — Essay', c:'اللغة الإنجليزية', d:'بعد 7 أيام', warn:false},
+              {t:'الواجب الثالث - بحث في مفهوم التوحيد', c:'التربية الإسلامية 1', d:'بعد 3 أيام', warn:true},
+              {t:'واجب الكيمياء - تقرير التجربة', c:'الكيمياء', d:'بعد 5 أيام', warn:false},
+              {t:'واجب اللغة الإنجليزية - Essay', c:'اللغة الإنجليزية', d:'بعد 7 أيام', warn:false},
             ].map((a,i) => (
               <div key={i} className="col gap-1" style={{padding:14, borderRadius:8, background:'var(--bg-surface-2)', border:'1px solid var(--border-subtle)'}}>
                 <div style={{fontSize:14, fontWeight:600, lineHeight:1.45}}>{a.t}</div>
@@ -142,7 +154,7 @@ export function StudentCourseWorkspace({ nav, courseId, setLessonN, setAssignmen
       <div className="page-header">
         <div>
           <h1 className="page-title">{course.name}</h1>
-          <p className="page-sub">{course.teacher} · الصف الحادي عشر — الشعبة أ</p>
+          <p className="page-sub">{course.teacher} · الصف الحادي عشر - الشعبة أ</p>
         </div>
         <Pill kind="accent">المعدل: <span className="num" style={{fontWeight:700, marginInlineStart:4}}>{course.avg}%</span></Pill>
       </div>
@@ -202,10 +214,10 @@ export function StudentCourseWorkspace({ nav, courseId, setLessonN, setAssignmen
             <thead><tr><th>الواجب</th><th>الدرجة</th><th>النسبة</th><th>الحالة</th></tr></thead>
             <tbody>
               {isHero ? [
-                {t:'الواجب الأول — تعريف العقيدة', g:'18/20', p:90},
-                {t:'الواجب الثاني — مقال توحيد الربوبية', g:'23/25', p:92},
+                {t:'الواجب الأول - تعريف العقيدة', g:'18/20', p:90},
+                {t:'الواجب الثاني - مقال توحيد الربوبية', g:'23/25', p:92},
               ].map((r,i) => (
-                <tr key={i}><td>{r.t}</td><td className="num">{r.g}</td><td className="num band-high" style={{fontWeight:600}}>{r.p}%</td><td><Pill kind="graded">تم التصحيح</Pill></td></tr>
+                <tr key={i}><td>{r.t}</td><td><span className="num">{r.g}</span></td><td><span className="num band-high" style={{fontWeight:600}}>{r.p}%</span></td><td><Pill kind="graded">تم التصحيح</Pill></td></tr>
               )) : (<tr><td colSpan={4} style={{padding:24, color:'var(--text-tertiary)'}}>لا توجد درجات حتى الآن.</td></tr>)}
             </tbody>
           </table>
@@ -239,7 +251,7 @@ export function LessonViewer({ nav, lessonN }: SBag) {
       <Breadcrumbs items={[
         {label:'موادي', onClick:()=>nav('courses')},
         {label:'التربية الإسلامية 1', onClick:()=>nav('course')},
-        {label:`الدرس ${l.n} — ${l.title}`}
+        {label:`الدرس ${l.n} - ${l.title}`}
       ]}/>
       <div className="row gap-5 items-start wrap">
         <div className="col gap-5 grow" style={{flex:'2 1 520px'}}>
@@ -371,7 +383,7 @@ export function AssignmentSubmission({ nav, assignmentN }: SBag) {
             <div className="card">
               <div className="row gap-3 items-center mb-3">
                 <span className="ann-ico primary"><Icon.CheckCircle size={18}/></span>
-                <div className="col" style={{gap:2}}><div style={{fontSize:15, fontWeight:600}}>سُلِّم يوم الثلاثاء 12 ربيع الأول 1447هـ</div><div style={{fontSize:12, color:'var(--text-tertiary)'}}>الساعة <span className="num">10:42</span> مساءً — قبل الموعد النهائي</div></div>
+                <div className="col" style={{gap:2}}><div style={{fontSize:15, fontWeight:600}}>سُلِّم يوم الثلاثاء 12 ربيع الأول 1447هـ</div><div style={{fontSize:12, color:'var(--text-tertiary)'}}>الساعة <span className="num">10:42</span> مساءً - قبل الموعد النهائي</div></div>
               </div>
               <div className="file-chip">
                 <span className="file-ico"><Icon.FileText size={18}/></span>
@@ -425,62 +437,146 @@ export function StudentGrades() {
   const scoreOf30 = (pct: number) => Math.round(pct * 30 / 100);
   const totalScore = D.studentGrades.reduce((sum, g) => sum + scoreOf30(g.pct), 0);
   const maxTotal = D.studentGrades.length * 30;
+  const courseIconMap = Object.fromEntries(D.courses11A.map(c => [c.name, c.icon]));
 
   return (
     <div className="col gap-5">
       <div className="page-header">
-        <div><h1 className="page-title">درجاتي</h1><p className="page-sub">الفصل الدراسي الثاني · 1447–1448هـ · درجات المعلم (من 30)</p></div>
+        <div>
+          <h1 className="page-title">درجاتي</h1>
+          <p className="page-sub">الفصل الدراسي الثاني · 1447–1448هـ</p>
+        </div>
         <button className="btn secondary"><Icon.Download size={14}/>تصدير PDF</button>
       </div>
 
-      <div className="card" style={{background:'linear-gradient(135deg, var(--primary-900), var(--bg-surface-1))'}}>
-        <div className="row gap-5 items-center">
-          <div className="col" style={{gap:4}}>
-            <div style={{fontSize:13, color:'var(--text-secondary)'}}>مجموع درجات المعلم — الفصل الثاني</div>
-            <div className="num" style={{fontSize:40, fontWeight:700, color:'var(--text-primary)', lineHeight:1}}>
-              {totalScore}<span style={{fontSize:20, color:'var(--text-secondary)', fontWeight:400}}>/{maxTotal}</span>
+      {/* Hero summary — editorial split with decorative gold corner */}
+      <div className="card" style={{
+        padding:'32px 36px',
+        background:'linear-gradient(225deg, rgba(42,157,147,0.07) 0%, rgba(212,175,55,0.04) 50%, var(--bg-surface-1) 100%)',
+        border:'1px solid rgba(212,175,55,0.14)',
+        position:'relative',
+        overflow:'hidden',
+      }}>
+        <div style={{
+          position:'absolute', insetInlineStart:-40, top:-40,
+          width:180, height:180, borderRadius:'50%',
+          background:'radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%)',
+          pointerEvents:'none',
+        }}/>
+        <div className="row between items-center wrap gap-5" style={{position:'relative'}}>
+          <div className="col" style={{gap:6}}>
+            <div style={{fontSize:11, color:'var(--text-tertiary)', fontWeight:600, letterSpacing:'0.1em'}}>مجموع درجات المعلم</div>
+            <div style={{display:'flex', alignItems:'baseline', gap:6, direction:'ltr'}}>
+              <span className="num" style={{fontSize:58, fontWeight:700, lineHeight:1, fontFamily:'var(--font-heading)', color:'var(--text-primary)'}}>{totalScore}</span>
+              <span className="num" style={{fontSize:26, color:'var(--text-tertiary)', fontWeight:400}}>/ {maxTotal}</span>
             </div>
             <div style={{fontSize:13, color:'var(--text-secondary)'}}>
-              درجات المعلم فقط — الاختبار الحكومي النهائي خارج النطاق
+              عبر <span className="num" style={{color:'var(--text-primary)', fontWeight:600}}>{D.studentGrades.length}</span> مواد دراسية
             </div>
           </div>
+
+          {/* Progress ring on the left — percentage of total */}
+          <div className="col center" style={{gap:8}}>
+            <ProgressRing pct={Math.round(totalScore/maxTotal*100)} size={104} stroke={7} color="var(--accent-500)"/>
+            <div style={{fontSize:11, color:'var(--text-tertiary)', fontWeight:600, letterSpacing:'0.08em'}}>النسبة المئوية</div>
+          </div>
         </div>
+      </div>
+
+      {/* Section header */}
+      <div className="row between items-center" style={{padding:'0 4px'}}>
+        <h2 style={{margin:0, fontSize:16, fontWeight:600}}>تفاصيل المواد</h2>
+        <span style={{fontSize:12, color:'var(--text-tertiary)'}}>اضغط على أي مادة لعرض التفاصيل</span>
       </div>
 
       <div className="card" style={{padding:0, overflow:'hidden'}}>
         {D.studentGrades.map((g, i) => {
           const score = scoreOf30(g.pct);
+          const pctFill = (score / 30) * 100;
+          const iconName = courseIconMap[g.course] || 'book-open';
+          const Ico = icoFor(iconName);
+          const isLast = i === D.studentGrades.length - 1;
+          const isOpen = expanded === i;
+
           return (
-            <div key={i}>
+            <div key={i} style={{borderBottom: !isLast ? '1px solid var(--border-subtle)' : 'none'}}>
               <button
-                onClick={()=>setExpanded(expanded===i?-1:i)}
-                style={{width:'100%', display:'flex', alignItems:'center', gap:16, padding:16, background: expanded===i?'var(--bg-surface-2)':'transparent', border:'none', borderBottom:'1px solid var(--border-subtle)', color:'inherit', cursor:'pointer', textAlign:'start', fontFamily:'inherit'}}>
-                <div className="col grow" style={{gap:2}}>
+                onClick={()=>setExpanded(isOpen ? -1 : i)}
+                style={{
+                  width:'100%', display:'flex', alignItems:'center', gap:16,
+                  padding:'18px 22px',
+                  background: isOpen ? 'var(--bg-surface-2)' : 'transparent',
+                  border:'none', color:'inherit', cursor:'pointer',
+                  textAlign:'start', fontFamily:'inherit',
+                  position:'relative',
+                  transition:'background var(--motion-fast)',
+                }}>
+                {/* Course icon */}
+                <div style={{
+                  width:44, height:44, borderRadius:11,
+                  background:'var(--bg-surface-3)', color:'var(--primary-300)',
+                  border:'1px solid var(--border-subtle)',
+                  display:'grid', placeItems:'center', flexShrink:0,
+                }}>
+                  <Ico size={20}/>
+                </div>
+                {/* Course meta */}
+                <div className="col grow" style={{gap:3, minWidth:0}}>
                   <div style={{fontSize:15, fontWeight:600}}>{g.course}</div>
-                  <div style={{fontSize:12, color:'var(--text-tertiary)'}}>درجة المعلم</div>
+                  <div style={{fontSize:12, color:'var(--text-tertiary)'}}>آخر درجة صادرة</div>
                 </div>
-                <div className="num" style={{fontSize:20, fontWeight:700, color:'var(--text-primary)'}}>
-                  {score}<span style={{fontSize:14, color:'var(--text-secondary)', fontWeight:400}}>/30</span>
+                {/* Score */}
+                <div className="num" style={{
+                  fontFamily:'var(--font-heading)', fontSize:24, fontWeight:700,
+                  color:'var(--text-primary)', lineHeight:1,
+                }}>
+                  {score}
+                  <span style={{fontSize:13, color:'var(--text-tertiary)', fontWeight:400, marginInlineStart:2}}>/ 30</span>
                 </div>
-                <Icon.ChevronDown size={16} style={{transform: expanded===i?'rotate(180deg)':'none', transition:'transform 200ms'}}/>
+                {/* Chevron */}
+                <Icon.ChevronDown size={16} style={{
+                  color:'var(--text-tertiary)',
+                  transform: isOpen ? 'rotate(180deg)' : 'none',
+                  transition:'transform 220ms cubic-bezier(0.25,0,0,1)',
+                  flexShrink:0,
+                }}/>
+                {/* Subtle progress track at bottom of row */}
+                <div style={{
+                  position:'absolute', bottom:0, insetInlineStart:0, insetInlineEnd:0,
+                  height:2, background:'rgba(42,157,147,0.06)', pointerEvents:'none',
+                }}>
+                  <div style={{
+                    height:'100%', width:pctFill+'%',
+                    background:'linear-gradient(to left, var(--primary-500), var(--primary-300))',
+                    opacity:0.55,
+                    transition:'width 700ms cubic-bezier(0.25,0,0,1)',
+                  }}/>
+                </div>
               </button>
-              {expanded===i && (
-                <div style={{padding:'16px 20px', background:'var(--bg-base)'}}>
+              {isOpen && (
+                <div style={{padding:'22px 26px', background:'var(--bg-base)'}}>
                   {i===0 ? (
-                    <div className="col gap-3">
-                      <div className="row gap-3 items-center">
-                        <div style={{fontSize:13, color:'var(--text-secondary)'}}>الواجب الثاني</div>
-                        <div className="num" style={{fontWeight:600}}>23/25</div>
+                    <div className="col gap-4">
+                      <div className="row gap-3 items-center wrap">
+                        <div style={{fontSize:13, color:'var(--text-tertiary)', fontWeight:500}}>آخر واجب مُصحَّح:</div>
+                        <div style={{fontSize:14, fontWeight:600}}>الواجب الثاني — مقال عن توحيد الربوبية</div>
+                        <div className="num" style={{fontWeight:700, fontSize:14}}>23/25</div>
                         <Pill kind="graded">تم التصحيح</Pill>
                       </div>
-                      <div className="feedback-card" style={{padding:14}}>
-                        <div style={{fontSize:12, color:'var(--primary-300)', marginBottom:6}}>ملاحظة من الأستاذ أحمد الحارثي</div>
-                        <p style={{margin:0, fontSize:14, lineHeight:1.8}}>بحث جيد يا أحمد. التسلسل المنطقي واضح والاستشهادات القرآنية ملائمة. أتمنى في المرة القادمة أن تتوسع أكثر في الجانب التطبيقي للعقيدة في حياة المسلم اليومية.</p>
+                      <div className="feedback-card" style={{padding:18}}>
+                        <div className="row gap-2 items-center" style={{marginBottom:10}}>
+                          <Icon.Sparkles size={14} style={{color:'var(--primary-300)'}}/>
+                          <span style={{fontSize:12, color:'var(--primary-300)', fontWeight:600}}>ملاحظة من الأستاذ أحمد الحارثي</span>
+                        </div>
+                        <p style={{margin:0, fontSize:14, lineHeight:1.9, color:'var(--text-primary)'}}>
+                          بحث جيد يا أحمد. التسلسل المنطقي واضح والاستشهادات القرآنية ملائمة. أتمنى في المرة القادمة أن تتوسع أكثر في الجانب التطبيقي للعقيدة في حياة المسلم اليومية.
+                        </p>
                       </div>
                     </div>
                   ) : (
-                    <div style={{fontSize:13, color:'var(--text-secondary)'}}>
-                      آخر درجة صادرة: <span className="num">{score}/30</span>
+                    <div className="row between items-center wrap gap-3" style={{fontSize:13, color:'var(--text-secondary)'}}>
+                      <span>آخر درجة صادرة: <span className="num" style={{color:'var(--text-primary)', fontWeight:600, marginInlineStart:4}}>{score}/30</span></span>
+                      <span style={{color:'var(--text-tertiary)', fontSize:12}}>لم يُصدَر تفصيل الواجبات بعد</span>
                     </div>
                   )}
                 </div>
@@ -530,27 +626,50 @@ export function TimetableGrid({ heroOnly=false }: { heroOnly?: boolean }) {
       <table className="timetable">
         <thead>
           <tr>
-            <th style={{width:80}}>الحصة</th>
+            <th style={{width:108}}>الحصة</th>
             {D.days.map(d => <th key={d}>{d}</th>)}
           </tr>
         </thead>
         <tbody>
           {D.periods.map((p, pi) => (
-            <tr key={p.n}>
-              <td className="period-h"><div className="col" style={{gap:2}}><div className="num" style={{fontWeight:700}}>{p.n}</div><div style={{fontSize:11, color:'var(--text-tertiary)'}} className="num">{p.time}</div></div></td>
-              {D.days.map((d, di) => {
-                const cell = D.timetable11A[di][pi];
-                const render = heroOnly && !cell.hero ? {s:'خارج التدريس', t:'', k:'flex', hero:false, now:false} : cell;
-                return (
-                  <td key={d}>
-                    <div className={'tt-cell' + (render.hero?' hero':'') + (render.k==='flex'?' flex':'') + (render.now?' now':'')}>
-                      <div className="subj">{render.s}</div>
-                      {render.t && <div className="teach">{render.t}</div>}
+            <React.Fragment key={p.n}>
+              {pi === 4 && (
+                <tr className="break-row">
+                  <td className="period-h break-time">
+                    <div className="num" style={{fontSize:10, color:'var(--accent-500)', display:'inline-flex', alignItems:'center', gap:4, direction:'ltr', justifyContent:'center'}}>
+                      <span>{D.breakPeriod.from}</span>
+                      <span style={{opacity:0.5}}>│</span>
+                      <span>{D.breakPeriod.to}</span>
                     </div>
                   </td>
-                );
-              })}
-            </tr>
+                  <td colSpan={D.days.length} className="break-label">{D.breakPeriod.label}</td>
+                </tr>
+              )}
+              <tr>
+                <td className="period-h">
+                  <div className="col center" style={{gap:3}}>
+                    <div className="num" style={{fontWeight:700, fontSize:14}}>{p.n}</div>
+                    <div className="num" style={{fontSize:10, color:'var(--text-tertiary)', display:'inline-flex', alignItems:'center', gap:4, direction:'ltr'}}>
+                      <span>{p.time}</span>
+                      <span style={{opacity:0.45}}>│</span>
+                      <span>{p.end}</span>
+                    </div>
+                  </div>
+                </td>
+                {D.days.map((d) => {
+                  const cell = D.timetable11A[D.days.indexOf(d)][pi];
+                  const render = heroOnly && !cell.hero ? {s:'خارج التدريس', t:'', k:'flex', hero:false, now:false} : cell;
+                  return (
+                    <td key={d}>
+                      <div className={'tt-cell' + (render.hero?' hero':'') + (render.k==='flex'?' flex':'') + (render.now?' now':'')}>
+                        <div className="subj">{render.s}</div>
+                        {render.t && <div className="teach">{render.t}</div>}
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+            </React.Fragment>
           ))}
         </tbody>
       </table>
@@ -562,11 +681,11 @@ export function StudentTimetable() {
   return (
     <div className="col gap-5">
       <div className="page-header">
-        <div><h1 className="page-title">الجدول الأسبوعي</h1><p className="page-sub">الصف الحادي عشر — الشعبة أ · الأسبوع الحالي</p></div>
+        <div><h1 className="page-title">الجدول الأسبوعي</h1><p className="page-sub">الصف الحادي عشر - الشعبة أ · الأسبوع الحالي</p></div>
         <div className="row gap-2">
-          <button className="arq-iconbtn" aria-label="الأسبوع التالي"><Icon.ChevronRight size={16}/></button>
-          <button className="btn secondary sm">هذا الأسبوع</button>
           <button className="arq-iconbtn" aria-label="الأسبوع السابق"><Icon.ChevronLeft size={16}/></button>
+          <button className="btn secondary sm">هذا الأسبوع</button>
+          <button className="arq-iconbtn" aria-label="الأسبوع التالي"><Icon.ChevronRight size={16}/></button>
         </div>
       </div>
       <TimetableGrid/>
@@ -585,7 +704,7 @@ export function StudentProfile() {
             <div className="avatar xl" style={{background:'var(--primary-900)', color:'var(--primary-300)'}}>أ</div>
             <div className="col center" style={{gap:2}}>
               <div style={{fontSize:17, fontWeight:700}}>{u.name}</div>
-              <div style={{fontSize:13, color:'var(--text-secondary)'}}>الصف الحادي عشر — الشعبة أ</div>
+              <div style={{fontSize:13, color:'var(--text-secondary)'}}>الصف الحادي عشر - الشعبة أ</div>
             </div>
           </div>
           <div className="muqarnas-div"/>
@@ -626,12 +745,12 @@ export function StudentProfile() {
 
 export function StudentAssignmentsAgg({ nav, setAssignmentN }: SBag) {
   const rows = [
-    { n:3, title:'الواجب الثالث — بحث في مفهوم التوحيد', c:'التربية الإسلامية 1', deadline:'بعد 3 أيام', state:'open' },
-    { n:0, title:'واجب الكيمياء — تقرير التجربة', c:'الكيمياء', deadline:'بعد 5 أيام', state:'open' },
-    { n:0, title:'واجب اللغة الإنجليزية — Essay', c:'اللغة الإنجليزية', deadline:'بعد 7 أيام', state:'open' },
+    { n:3, title:'الواجب الثالث - بحث في مفهوم التوحيد', c:'التربية الإسلامية 1', deadline:'بعد 3 أيام', state:'open' },
+    { n:0, title:'واجب الكيمياء - تقرير التجربة', c:'الكيمياء', deadline:'بعد 5 أيام', state:'open' },
+    { n:0, title:'واجب اللغة الإنجليزية - Essay', c:'اللغة الإنجليزية', deadline:'بعد 7 أيام', state:'open' },
     { n:0, title:'واجب الفيزياء', c:'الفيزياء', deadline:'بعد 10 أيام', state:'upcoming' },
-    { n:2, title:'الواجب الثاني — مقال توحيد الربوبية', c:'التربية الإسلامية 1', deadline:'منتهي', state:'graded', g:'23/25' },
-    { n:1, title:'الواجب الأول — تعريف العقيدة', c:'التربية الإسلامية 1', deadline:'منتهي', state:'graded', g:'18/20' },
+    { n:2, title:'الواجب الثاني - مقال توحيد الربوبية', c:'التربية الإسلامية 1', deadline:'منتهي', state:'graded', g:'23/25' },
+    { n:1, title:'الواجب الأول - تعريف العقيدة', c:'التربية الإسلامية 1', deadline:'منتهي', state:'graded', g:'18/20' },
   ];
   const [filter, setFilter] = useState('all');
   const filtered = filter==='all' ? rows : rows.filter(r => r.state===filter);

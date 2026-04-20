@@ -4,7 +4,7 @@ import { Icon } from './Icons';
 import type { Role } from '../context';
 
 // ═══════════════════════════════════════════════════════════════
-// ROTATING QUOTES — copy & paste new entries to add more.
+// ROTATING QUOTES - copy & paste new entries to add more.
 // Each entry: { text: 'Arabic quote', source: 'Attribution' }
 // ═══════════════════════════════════════════════════════════════
 const QUOTES = [
@@ -99,7 +99,7 @@ export function LoginScreen({ onLogin }: { onLogin: (castKey: string) => void })
               {quote.text}
             </p>
             <span style={{fontSize:12, color:'var(--text-tertiary)', fontStyle:'normal'}}>
-              — {quote.source}
+              - {quote.source}
             </span>
           </div>
         </div>
@@ -161,7 +161,7 @@ export function LoginScreen({ onLogin }: { onLogin: (castKey: string) => void })
           <div className="muqarnas-div"/>
           <div className="col gap-2 center" style={{fontSize:12, color:'var(--text-tertiary)', textAlign:'center'}}>
             <span>للحصول على حساب، تواصل مع إدارة المعهد.</span>
-            <span>© 1447هـ أرقم — المنصة الرقمية للمعاهد الإسلامية</span>
+            <span>© 1447هـ أرقم - المنصة الرقمية للمعاهد الإسلامية</span>
           </div>
         </div>
       </div>

@@ -7,10 +7,10 @@ import type { AuthUser, NavItem } from '../context';
 function ArqamMark({ size = 28 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-label="شعار أرقم">
-      {/* Arch — teal */}
+      {/* Arch - teal */}
       <path d="M20 3 C 12 3, 6 9, 6 18 L 6 34 L 34 34 L 34 18 C 34 9, 28 3, 20 3 Z"
             stroke="#2A9D93" strokeWidth="2" fill="none"/>
-      {/* Diamond — royal gold */}
+      {/* Diamond - royal gold */}
       <path d="M12 20 L 20 15 L 28 20 L 28 30 L 20 27 L 12 30 Z" fill="#D4AF37"/>
       {/* Center spine */}
       <line x1="20" y1="15" x2="20" y2="27" stroke="#050C0A" strokeWidth="1.3"/>
@@ -18,7 +18,7 @@ function ArqamMark({ size = 28 }: { size?: number }) {
   );
 }
 
-// ===== Logo (mark + wordmark) — used in topbar =====
+// ===== Logo (mark + wordmark) - used in topbar =====
 export function ArqamLogo({ size = 28 }: { size?: number }) {
   return (
     <div className="row gap-2 items-center">
@@ -28,11 +28,11 @@ export function ArqamLogo({ size = 28 }: { size?: number }) {
   );
 }
 
-// ===== Brand lockup — used on auth screens =====
+// ===== Brand lockup - used on auth screens =====
 export function ArqamBrand({ size = 80 }: { size?: number }) {
   return (
     <div className="col center gap-5" style={{textAlign:'center'}}>
-      {/* Mark inside a double ring — teal outer, gold inner */}
+      {/* Mark inside a double ring - teal outer, gold inner */}
       <div style={{position:'relative', display:'inline-flex', alignItems:'center', justifyContent:'center'}}>
         {/* Outer glow ring */}
         <div style={{
@@ -54,7 +54,7 @@ export function ArqamBrand({ size = 80 }: { size?: number }) {
           <ArqamMark size={size}/>
         </div>
       </div>
-      {/* Wordmark — royal gold */}
+      {/* Wordmark - royal gold */}
       <div style={{
         fontFamily: 'var(--font-heading)',
         fontSize: 46, fontWeight: 700, lineHeight: 1,
@@ -67,28 +67,100 @@ export function ArqamBrand({ size = 80 }: { size?: number }) {
   );
 }
 
-// ===== Topbar =====
-function Topbar({ user, viewRole, onOpenNotifications, onOpenSearch, unread = 0, onRequestLogout, onSwitchRole }: {
-  user: AuthUser; viewRole: string; onOpenNotifications: () => void; onOpenSearch: () => void;
-  unread?: number; onRequestLogout: () => void; onSwitchRole?: () => void;
+// ===== User Menu (dropdown from profile chip) =====
+function UserMenu({ user, viewRole, onRequestLogout, onSwitchRole }: {
+  user: AuthUser; viewRole: string; onRequestLogout: () => void; onSwitchRole?: () => void;
 }) {
-  const switchLabel = viewRole === 'admin' ? 'عرض المشرف' : 'عرض الإداري';
+  const [open, setOpen] = useState(false);
+  const [dropLeft, setDropLeft] = useState(8);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const close = () => setOpen(false);
+  const switchLabel = viewRole === 'admin' ? 'التبديل إلى عرض المشرف' : 'التبديل إلى عرض الإداري';
+
+  const handleToggle = () => {
+    if (!open && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      // Clamp so dropdown (260px wide) never overflows either edge
+      const ideal = rect.left;
+      const clamped = Math.min(Math.max(ideal, 8), window.innerWidth - 268);
+      setDropLeft(clamped);
+    }
+    setOpen(v => !v);
+  };
+
+  return (
+    <div>
+      {/* Trigger chip - on open, name & role collapse so avatar centers */}
+      <button ref={triggerRef} className={'arq-user' + (open ? ' is-open' : '')}
+        onClick={handleToggle} aria-label="قائمة المستخدم" aria-expanded={open}>
+        <div className="avatar md">{user.avatarInitial}</div>
+        <div className="arq-user-text">
+          <span className="arq-user-name">{user.shortName}</span>
+          <span className="arq-user-role">{roleLabel(viewRole)}</span>
+        </div>
+        <span className="arq-user-chev" style={{ transform: open ? 'rotate(180deg)' : 'none' }}>
+          <Icon.ChevronDown size={13}/>
+        </span>
+      </button>
+
+      {/* Dropdown - fixed to viewport, clamped within bounds */}
+      {open && (
+        <>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 48 }} onClick={close}/>
+          <div className="user-menu-dropdown" style={{ top: 'calc(var(--topbar-h) + 8px)', left: dropLeft }}>
+            {/* User info header */}
+            <div style={{ padding: '16px 16px 14px', borderBottom: '1px solid var(--border-subtle)' }}>
+              <div className="row gap-3 items-center">
+                <div className="avatar lg">{user.avatarInitial}</div>
+                <div className="col" style={{ gap: 3 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>{user.name}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{roleLabel(viewRole)}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-tertiary)' }} className="latin">{user.email}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Switch role - dual-role users only */}
+            {onSwitchRole && (
+              <div style={{ padding: '8px 8px 4px' }}>
+                <button className="user-menu-item" onClick={() => { onSwitchRole(); close(); }}>
+                  <svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
+                  </svg>
+                  <span>{switchLabel}</span>
+                </button>
+              </div>
+            )}
+
+            {/* Logout */}
+            <div style={{ padding: onSwitchRole ? '4px 8px 8px' : '8px', borderTop: '1px solid var(--border-subtle)' }}>
+              <button className="user-menu-item danger" onClick={() => { onRequestLogout(); close(); }}>
+                <Icon.Logout size={15}/>
+                <span>تسجيل الخروج</span>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ===== Topbar =====
+function Topbar({ user, viewRole, onOpenNotifications, onOpenSearch, unread = 0, onRequestLogout, onSwitchRole, onHome }: {
+  user: AuthUser; viewRole: string; onOpenNotifications: () => void; onOpenSearch: () => void;
+  unread?: number; onRequestLogout: () => void; onSwitchRole?: () => void; onHome: () => void;
+}) {
   return (
     <header className="arq-topbar">
-      <div className="row gap-3 items-center">
-        <ArqamLogo size={26} />
-        <div style={{width:1,height:20,background:'var(--border-default)'}}/>
-        <span style={{fontSize:14,color:'var(--text-primary)',fontWeight:500}}>معهد مسقط للعلوم الإسلامية</span>
-      </div>
-      {/* Dual-role switch button — only shown when user has a secondary role */}
-      {onSwitchRole && (
-        <button className="role-view-switch" onClick={onSwitchRole} aria-label={switchLabel}>
-          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
-          </svg>
-          <span>{switchLabel}</span>
+      <div className="row items-center" style={{ gap: 0 }}>
+        <button className="arq-home-btn" onClick={onHome} aria-label="العودة إلى الرئيسية" title="الرئيسية">
+          <ArqamLogo size={26} />
         </button>
-      )}
+        <div className="arq-topbar-sep"/>
+        <span className="arq-institution">معهد مسقط للعلوم الإسلامية</span>
+      </div>
+
       <button className="arq-search-trigger" onClick={onOpenSearch} aria-label="البحث">
         <Icon.Search size={16}/>
         <span>ابحث في أرقم…</span>
@@ -96,21 +168,17 @@ function Topbar({ user, viewRole, onOpenNotifications, onOpenSearch, unread = 0,
           <kbd>Ctrl</kbd><kbd>K</kbd>
         </span>
       </button>
+
       <div className="row gap-2 items-center" style={{marginInlineStart:'auto'}}>
+        {/* Search icon - mobile only */}
+        <button className="arq-iconbtn mobile-search-btn" onClick={onOpenSearch} aria-label="البحث">
+          <Icon.Search size={18}/>
+        </button>
         <button className="arq-iconbtn" onClick={onOpenNotifications} aria-label="الإشعارات">
           <Icon.Bell size={18}/>
           {unread > 0 && <span className="arq-unread num">{unread}</span>}
         </button>
-        <div className="arq-user">
-          <div className="avatar md">{user.avatarInitial}</div>
-          <div className="col" style={{gap:0}}>
-            <span style={{fontSize:13,fontWeight:500,lineHeight:1.3}}>{user.shortName}</span>
-            <span style={{fontSize:11,color:'var(--text-secondary)',lineHeight:1.3}}>{roleLabel(viewRole)}</span>
-          </div>
-          <button className="arq-iconbtn sm" onClick={onRequestLogout} aria-label="تسجيل الخروج" title="تسجيل الخروج">
-            <Icon.Logout size={16}/>
-          </button>
-        </div>
+        <UserMenu user={user} viewRole={viewRole} onRequestLogout={onRequestLogout} onSwitchRole={onSwitchRole}/>
       </div>
     </header>
   );
@@ -121,6 +189,59 @@ export function roleLabel(r: string) {
 }
 
 // ===== Sidebar =====
+// ===== Mobile Bottom Navigation =====
+function MobileBottomBar({ items, activeKey, onNav }: { items: NavItem[]; activeKey: string; onNav: (k: string) => void }) {
+  const [showMore, setShowMore] = useState(false);
+  const primary = items.slice(0, 4);
+  const extra   = items.slice(4);
+
+  return (
+    <>
+      <nav className="mobile-bottom" aria-label="التنقل الرئيسي">
+        {primary.map(it => (
+          <button key={it.key}
+            className={'mb-item' + (activeKey === it.key ? ' active' : '')}
+            onClick={() => onNav(it.key)}
+            aria-label={it.label}>
+            <span style={{position:'relative', display:'inline-flex'}}>
+              <it.icon size={22}/>
+              {it.badge && <span style={{position:'absolute', top:-4, left:-4, minWidth:14, height:14, borderRadius:999, background:'var(--primary-500)', color:'var(--text-inverse)', fontSize:9, fontWeight:700, display:'grid', placeItems:'center', padding:'0 3px'}}>{it.badge}</span>}
+            </span>
+            <span>{it.label}</span>
+          </button>
+        ))}
+        {extra.length > 0 && (
+          <button className={'mb-item' + (extra.some(e => e.key === activeKey) ? ' active' : '')}
+            onClick={() => setShowMore(true)} aria-label="المزيد">
+            <Icon.MoreHorizontal size={22}/>
+            <span>المزيد</span>
+          </button>
+        )}
+      </nav>
+
+      {/* More sheet - slides up from bottom */}
+      {showMore && (
+        <>
+          <div className="arq-overlay" onClick={() => setShowMore(false)}/>
+          <div className="mobile-more-sheet" role="dialog" aria-label="المزيد">
+            <div className="mobile-more-handle"/>
+            {extra.map(it => (
+              <button key={it.key}
+                className={'sb-item' + (activeKey === it.key ? ' active' : '')}
+                style={{width:'100%'}}
+                onClick={() => { onNav(it.key); setShowMore(false); }}>
+                <span className="sb-icon"><it.icon size={18}/></span>
+                <span className="sb-label">{it.label}</span>
+                {it.badge && <span className="sb-badge num">{it.badge}</span>}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </>
+  );
+}
+
 // ── Animation 5: sidebar sliding indicator ──
 function Sidebar({ activeKey, onNav, items }: { activeKey: string; onNav: (k: string) => void; items: NavItem[] }) {
   const navRef = useRef<HTMLElement>(null);
@@ -144,7 +265,9 @@ function Sidebar({ activeKey, onNav, items }: { activeKey: string; onNav: (k: st
         {items.map(it => (
           <button key={it.key}
             className={'sb-item' + (activeKey === it.key ? ' active' : '')}
-            onClick={() => onNav(it.key)}>
+            onClick={() => onNav(it.key)}
+            title={it.label}
+            aria-label={it.label}>
             <span className="sb-icon"><it.icon size={18}/></span>
             <span className="sb-label">{it.label}</span>
             {it.badge ? <span className="sb-badge num">{it.badge}</span> : null}
@@ -166,11 +289,11 @@ function NotificationsPanel({ onClose, role }: { onClose: () => void; role: stri
   const [tab, setTab] = useState('all');
   const items =
     role === 'student' ? [
-      { icon: Icon.Award,         color:'var(--primary-500)', title:'تم إصدار درجة الواجب الثاني — التربية الإسلامية 1',      ago:'قبل دقائق',  unread:true  },
+      { icon: Icon.Award,         color:'var(--primary-500)', title:'تم إصدار درجة الواجب الثاني - التربية الإسلامية 1',      ago:'قبل دقائق',  unread:true  },
       { icon: Icon.Megaphone,     color:'var(--info-500)',    title:'إعلان جديد من إدارة المعهد: جدول اختبارات منتصف الفصل', ago:'قبل ساعتين', unread:true  },
       { icon: Icon.BookOpen,      color:'var(--primary-500)', title:'تم نشر درس جديد: الصيام وأسراره الروحية',               ago:'قبل يوم',    unread:false },
       { icon: Icon.Bell,          color:'var(--accent-500)',  title:'الأستاذ أحمد الحارثي: تذكير بموعد تسليم بحث التوحيد',  ago:'قبل يوم',    unread:false },
-      { icon: Icon.ClipboardList, color:'var(--primary-500)', title:'تم نشر واجب جديد: الواجب الثالث — بحث في مفهوم التوحيد', ago:'قبل 3 أيام', unread:false },
+      { icon: Icon.ClipboardList, color:'var(--primary-500)', title:'تم نشر واجب جديد: الواجب الثالث - بحث في مفهوم التوحيد', ago:'قبل 3 أيام', unread:false },
     ] : role === 'teacher' ? [
       { icon: Icon.Upload,   color:'var(--primary-500)', title:'أحمد الكندي قام برفع الواجب الثالث',              ago:'قبل ساعتين', unread:true  },
       { icon: Icon.Upload,   color:'var(--primary-500)', title:'سيف الخروصي قام برفع الواجب الثالث',             ago:'قبل 4 ساعات', unread:true  },
@@ -178,9 +301,9 @@ function NotificationsPanel({ onClose, role }: { onClose: () => void; role: stri
       { icon: Icon.Megaphone, color:'var(--info-500)',   title:'إعلان من الإدارة: جدول اختبارات منتصف الفصل',   ago:'قبل يومين',   unread:false },
     ] : role === 'supervisor' ? [
       { icon: Icon.AlertTriangle, color:'var(--warning-500)', title:'مؤشر: متوسط الصف 12أ في التربية الإسلامية أقل من الشعب الموازية', ago:'قبل يوم',   unread:true  },
-      { icon: Icon.BarChart,      color:'var(--primary-500)', title:'تم إصدار درجات الواجب الثاني — الصف 11أ',                         ago:'قبل يومين', unread:false },
+      { icon: Icon.BarChart,      color:'var(--primary-500)', title:'تم إصدار درجات الواجب الثاني - الصف 11أ',                         ago:'قبل يومين', unread:false },
     ] : [
-      { icon: Icon.User,      color:'var(--primary-500)', title:'طلب إعادة تعيين كلمة المرور — يوسف المعمري',  ago:'قبل 3 ساعات', unread:true  },
+      { icon: Icon.User,      color:'var(--primary-500)', title:'طلب إعادة تعيين كلمة المرور - يوسف المعمري',  ago:'قبل 3 ساعات', unread:true  },
       { icon: Icon.Megaphone, color:'var(--info-500)',    title:'إعلانك "اجتماع أولياء الأمور" وصل 302 مستخدم', ago:'قبل 3 أيام',  unread:false },
     ];
 
@@ -232,18 +355,18 @@ function GlobalSearch({ onClose }: { onClose: () => void }) {
   const [q, setQ] = useState('');
   const groups = [
     { label:'المواد', items:[
-      { icon:Icon.BookOpen, title:'التربية الإسلامية 1 — الصف 11أ', sub:'الأستاذ أحمد الحارثي' },
-      { icon:Icon.BookOpen, title:'اللغة العربية 1 — الصف 11أ',     sub:'الأستاذ خالد السيابي' },
+      { icon:Icon.BookOpen, title:'التربية الإسلامية 1 - الصف 11أ', sub:'الأستاذ أحمد الحارثي' },
+      { icon:Icon.BookOpen, title:'اللغة العربية 1 - الصف 11أ',     sub:'الأستاذ خالد السيابي' },
     ]},
     { label:'الدروس', items:[
-      { icon:Icon.FileText, title:'نواقض الإيمان',          sub:'التربية الإسلامية 1 — الدرس 5' },
-      { icon:Icon.FileText, title:'أهمية الصلاة وأحكامها', sub:'التربية الإسلامية 1 — الدرس 6' },
+      { icon:Icon.FileText, title:'نواقض الإيمان',          sub:'التربية الإسلامية 1 - الدرس 5' },
+      { icon:Icon.FileText, title:'أهمية الصلاة وأحكامها', sub:'التربية الإسلامية 1 - الدرس 6' },
     ]},
     { label:'الواجبات', items:[
-      { icon:Icon.ClipboardList, title:'الواجب الثالث — بحث في مفهوم التوحيد', sub:'يُسلَّم بعد 3 أيام' },
+      { icon:Icon.ClipboardList, title:'الواجب الثالث - بحث في مفهوم التوحيد', sub:'يُسلَّم بعد 3 أيام' },
     ]},
     { label:'الإعلانات', items:[
-      { icon:Icon.Megaphone, title:'جدول اختبارات منتصف الفصل الدراسي الثاني', sub:'إدارة المعهد — قبل يومين' },
+      { icon:Icon.Megaphone, title:'جدول اختبارات منتصف الفصل الدراسي الثاني', sub:'إدارة المعهد - قبل يومين' },
     ]},
   ];
   const _ = q; // prevent unused warning
@@ -254,7 +377,7 @@ function GlobalSearch({ onClose }: { onClose: () => void }) {
         <div className="row gap-2 items-center" style={{padding:'12px 16px', borderBottom:'1px solid var(--border-subtle)'}}>
           <Icon.Search size={16}/>
           <input autoFocus className="arq-search-input" placeholder="ابحث في المواد، الدروس، الواجبات، الإعلانات…" value={q} onChange={e=>setQ(e.target.value)}/>
-          <kbd>Esc</kbd>
+          <kbd className="kbd-desktop-only">Esc</kbd>
         </div>
         <div style={{maxHeight:'50vh', overflow:'auto'}}>
           {groups.map((g, gi) => (
@@ -273,7 +396,7 @@ function GlobalSearch({ onClose }: { onClose: () => void }) {
             </div>
           ))}
         </div>
-        <div className="row gap-3" style={{padding:'10px 16px', borderTop:'1px solid var(--border-subtle)', fontSize:12, color:'var(--text-tertiary)'}}>
+        <div className="row gap-3 kbd-desktop-only" style={{padding:'10px 16px', borderTop:'1px solid var(--border-subtle)', fontSize:12, color:'var(--text-tertiary)'}}>
           <span><kbd>↑↓</kbd> تنقل</span>
           <span><kbd>↵</kbd> فتح</span>
           <span><kbd>Esc</kbd> إغلاق</span>
@@ -317,11 +440,13 @@ export function Shell({ user, viewRole, navItems, activeKey, onNav, onLogout, on
       <div className="arq-shell">
         <Topbar user={user} viewRole={viewRole} onOpenNotifications={()=>setShowNotif(true)}
           onOpenSearch={()=>setShowSearch(true)} onRequestLogout={()=>setConfirmLogout(true)}
-          unread={unread} onSwitchRole={onSwitchRole}/>
+          unread={unread} onSwitchRole={onSwitchRole} onHome={()=>onNav('home')}/>
         <div className="arq-body">
           <Sidebar activeKey={activeKey} onNav={onNav} items={navItems}/>
           <main className="arq-main">{children}</main>
         </div>
+        {/* Mobile bottom nav - CSS hides on desktop */}
+        <MobileBottomBar items={navItems} activeKey={activeKey} onNav={onNav}/>
         {showNotif && <NotificationsPanel onClose={()=>setShowNotif(false)} role={user.role}/>}
         {showSearch && <GlobalSearch onClose={()=>setShowSearch(false)}/>}
         {confirmLogout && (
@@ -523,13 +648,13 @@ export function ConfirmDialog({ title, body, confirmLabel='تأكيد', danger=f
   );
 }
 
-// AnnouncementCompose — shared across teacher, supervisor, admin
+// AnnouncementCompose - shared across teacher, supervisor, admin
 export function AnnouncementCompose({ nav, role }: { nav: (k:string)=>void; role: string }) {
   const t = useToast();
   const audiences = role==='teacher'
-    ? ['الصف 11أ — التربية الإسلامية 1', 'الصف 11ب — التربية الإسلامية 1', 'الصف 11أ — التربية الإسلامية 2']
+    ? ['الصف 11أ - التربية الإسلامية 1', 'الصف 11ب - التربية الإسلامية 1', 'الصف 11أ - التربية الإسلامية 2']
     : role==='supervisor'
-    ? ['معلمو التربية الإسلامية — الصفوف 10، 11، 12', 'معلمو قسم التربية الإسلامية — الصف 12']
+    ? ['معلمو التربية الإسلامية - الصفوف 10، 11، 12', 'معلمو قسم التربية الإسلامية - الصف 12']
     : ['المعهد كله', 'جميع المعلمين', 'جميع الطلاب', 'الصفوف 10، 11، 12'];
   return (
     <div className="col gap-5">

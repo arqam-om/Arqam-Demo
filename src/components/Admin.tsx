@@ -132,8 +132,8 @@ export function AdminEnrollment({ nav }: ABag) {
   ];
   return (
     <div className="col gap-5">
-      <Breadcrumbs items={[{label:'الصفوف والشعب', onClick:()=>nav('grades')},{label:'الصف 11أ — التسجيلات'}]}/>
-      <div className="page-header"><div><h1 className="page-title">إدارة التسجيلات — الصف 11أ</h1><p className="page-sub"><span className="num">22</span>/24 طالب — <span className="num">2</span> مقاعد شاغرة</p></div></div>
+      <Breadcrumbs items={[{label:'الصفوف والشعب', onClick:()=>nav('grades')},{label:'الصف 11أ - التسجيلات'}]}/>
+      <div className="page-header"><div><h1 className="page-title">إدارة التسجيلات - الصف 11أ</h1><p className="page-sub"><span className="num">22</span>/24 طالب - <span className="num">2</span> مقاعد شاغرة</p></div></div>
       <div className="row gap-5 items-start">
         <div className="card grow" style={{flex:'3 1 0'}}>
           <div className="section-head"><h2>الطلاب المسجّلون</h2><button className="btn secondary sm"><Icon.Download size={14}/>تصدير قائمة</button></div>
@@ -142,10 +142,10 @@ export function AdminEnrollment({ nav }: ABag) {
             <tbody>
               {D.roster11A.slice(0,8).map((s,i) => (
                 <tr key={s.id}>
-                  <td className="num">{i+1}</td>
+                  <td><span className="num">{i+1}</span></td>
                   <td className="row gap-2 items-center"><div className="avatar sm">{s.initial}</div><span>{s.short}</span></td>
-                  <td className="latin" style={{fontSize:12, color:'var(--text-secondary)'}}>{s.short.split(' ').join('.').toLowerCase()}@arqam.edu.om</td>
-                  <td className="latin num" style={{fontSize:12, color:'var(--text-tertiary)'}}>2025-09-01</td>
+                  <td><span className="latin" style={{fontSize:12, color:'var(--text-secondary)'}}>{s.short.split(' ').join('.').toLowerCase()}@arqam.edu.om</span></td>
+                  <td><span className="latin num" style={{fontSize:12, color:'var(--text-tertiary)'}}>2025-09-01</span></td>
                   <td><button className="btn ghost sm" style={{color:'var(--danger-500)'}}>إزالة</button></td>
                 </tr>
               ))}
@@ -187,7 +187,7 @@ export function AdminSubjects() {
   ];
   return (
     <div className="col gap-5">
-      <div className="page-header"><div><h1 className="page-title">المواد الدراسية</h1><p className="page-sub"><span className="num">11</span> مادة — كتالوج المعهد</p></div><button className="btn primary"><Icon.Plus size={14}/>إضافة مادة</button></div>
+      <div className="page-header"><div><h1 className="page-title">المواد الدراسية</h1><p className="page-sub"><span className="num">11</span> مادة - كتالوج المعهد</p></div><button className="btn primary"><Icon.Plus size={14}/>إضافة مادة</button></div>
       <div className="card">
         <table className="tbl">
           <thead><tr><th>المادة</th><th>الصفوف</th><th>الشعب</th><th>المعلمون</th><th></th></tr></thead>
@@ -195,9 +195,9 @@ export function AdminSubjects() {
             {subj.map((s,i) => (
               <tr key={i}>
                 <td><div className="row gap-2 items-center"><span className="stat-ico"><Icon.BookOpen size={14}/></span><b>{s.n}</b></div></td>
-                <td className="num">{s.g}</td>
-                <td className="num">{s.s}</td>
-                <td className="num">{s.t}</td>
+                <td><span className="num">{s.g}</span></td>
+                <td><span className="num">{s.s}</span></td>
+                <td><span className="num">{s.t}</span></td>
                 <td><button className="arq-iconbtn sm" aria-label="تعديل المادة"><Icon.Edit size={14}/></button></td>
               </tr>
             ))}
@@ -238,8 +238,8 @@ export function AdminUsers({ nav }: ABag) {
               <tr key={i}>
                 <td><div className="row gap-2 items-center"><div className="avatar sm">{u.name.split(' ').pop()![0]}</div><span>{u.name}</span></div></td>
                 <td><Pill kind="pending">{u.role}</Pill></td>
-                <td className="latin" style={{fontSize:12, color:'var(--text-secondary)'}}>{u.email}</td>
-                <td className="latin num" style={{fontSize:12, color:'var(--text-tertiary)'}}>{u.created}</td>
+                <td><span className="latin" style={{fontSize:12, color:'var(--text-secondary)'}}>{u.email}</span></td>
+                <td><span className="latin num" style={{fontSize:12, color:'var(--text-tertiary)'}}>{u.created}</span></td>
                 <td style={{fontSize:12, color:'var(--text-tertiary)'}}>{u.lastLogin}</td>
                 <td className="row gap-1">
                   <button className="arq-iconbtn sm" aria-label="تعديل المستخدم"><Icon.Edit size={14}/></button>
@@ -299,7 +299,7 @@ function CreateUserModal({ onClose }: { onClose: ()=>void }) {
           </div>
         )}
         {role==='supervisor' && (
-          <div className="field"><label>نطاق الإشراف</label><input className="input" placeholder="مثال: التربية الإسلامية — الصفوف 10، 11، 12"/></div>
+          <div className="field"><label>نطاق الإشراف</label><input className="input" placeholder="مثال: التربية الإسلامية - الصفوف 10، 11، 12"/></div>
         )}
         <div className="field"><label>كلمة المرور</label>
           <div className="col gap-2">
@@ -353,11 +353,11 @@ export function AdminAssignments() {
 
 export function AdminSupervisors() {
   const list = [
-    {n:'أ. حسن البلوشي',     scope:'التربية الإسلامية — الصفوف 10، 11، 12',       t:3, s:132},
-    {n:'أ. محمد الشكيلي',    scope:'اللغة العربية — الصفوف 10، 11، 12',           t:3, s:132},
-    {n:'أ. خليل الجابري',    scope:'الرياضيات والفيزياء — الصف 12',                t:2, s:44},
-    {n:'أ. راشد السعدي',     scope:'اللغة الإنجليزية — الصفوف 10، 11، 12',       t:3, s:132},
-    {n:'أ. نايف السليماني',  scope:'الكيمياء والأحياء — الصفوف 11، 12',           t:2, s:88},
+    {n:'أ. حسن البلوشي',     scope:'التربية الإسلامية - الصفوف 10، 11، 12',       t:3, s:132},
+    {n:'أ. محمد الشكيلي',    scope:'اللغة العربية - الصفوف 10، 11، 12',           t:3, s:132},
+    {n:'أ. خليل الجابري',    scope:'الرياضيات والفيزياء - الصف 12',                t:2, s:44},
+    {n:'أ. راشد السعدي',     scope:'اللغة الإنجليزية - الصفوف 10، 11، 12',       t:3, s:132},
+    {n:'أ. نايف السليماني',  scope:'الكيمياء والأحياء - الصفوف 11، 12',           t:2, s:88},
     {n:'أ. محسن الفارسي',    scope:'الدراسات الاجتماعية والتوجيه المهني',          t:2, s:88},
   ];
   return (
@@ -396,23 +396,46 @@ export function AdminTimetable() {
       </div>
       <div style={{overflow:'auto'}}>
         <table className="timetable">
-          <thead><tr><th style={{width:80}}>الحصة</th>{D.days.map(d => <th key={d}>{d}</th>)}</tr></thead>
+          <thead><tr><th style={{width:108}}>الحصة</th>{D.days.map(d => <th key={d}>{d}</th>)}</tr></thead>
           <tbody>
             {D.periods.map((p, pi) => (
-              <tr key={p.n}>
-                <td className="period-h"><div className="col" style={{gap:2}}><div className="num" style={{fontWeight:700}}>{p.n}</div><div style={{fontSize:11, color:'var(--text-tertiary)'}} className="num">{p.time}</div></div></td>
-                {D.days.map((d, di) => {
-                  const cell = D.timetable11A[di][pi];
-                  return (
-                    <td key={d}>
-                      <div className={'tt-cell editable' + (cell.hero?' hero':'') + (cell.k==='flex'?' flex':'')}>
-                        <div className="subj">{cell.s}</div>
-                        <div className="teach">{cell.t}</div>
+              <React.Fragment key={p.n}>
+                {pi === 4 && (
+                  <tr className="break-row">
+                    <td className="period-h break-time">
+                      <div className="num" style={{fontSize:10, color:'var(--accent-500)', display:'inline-flex', alignItems:'center', gap:4, direction:'ltr', justifyContent:'center'}}>
+                        <span>{D.breakPeriod.from}</span>
+                        <span style={{opacity:0.5}}>│</span>
+                        <span>{D.breakPeriod.to}</span>
                       </div>
                     </td>
-                  );
-                })}
-              </tr>
+                    <td colSpan={D.days.length} className="break-label">{D.breakPeriod.label}</td>
+                  </tr>
+                )}
+                <tr>
+                  <td className="period-h">
+                    <div className="col center" style={{gap:3}}>
+                      <div className="num" style={{fontWeight:700, fontSize:14}}>{p.n}</div>
+                      <div className="num" style={{fontSize:10, color:'var(--text-tertiary)', display:'inline-flex', alignItems:'center', gap:4, direction:'ltr'}}>
+                        <span>{p.time}</span>
+                        <span style={{opacity:0.45}}>│</span>
+                        <span>{p.end}</span>
+                      </div>
+                    </div>
+                  </td>
+                  {D.days.map((d, di) => {
+                    const cell = D.timetable11A[di][pi];
+                    return (
+                      <td key={d}>
+                        <div className={'tt-cell editable' + (cell.hero?' hero':'') + (cell.k==='flex'?' flex':'')}>
+                          <div className="subj">{cell.s}</div>
+                          <div className="teach">{cell.t}</div>
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              </React.Fragment>
             ))}
           </tbody>
         </table>

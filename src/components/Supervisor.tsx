@@ -15,7 +15,7 @@ export function SupervisorHome({ nav }: SBag) {
       <div className="page-header">
         <div>
           <h1 className="page-title">السلام عليكم، أ. حسن</h1>
-          <p className="page-sub">نطاق الإشراف: التربية الإسلامية — الصفوف 10، 11، 12 · <span className="num">6</span> شعب · <span className="num">3</span> معلمين</p>
+          <p className="page-sub">نطاق الإشراف: التربية الإسلامية - الصفوف 10، 11، 12 · <span className="num">6</span> شعب · <span className="num">3</span> معلمين</p>
         </div>
       </div>
 
@@ -51,7 +51,7 @@ export function SupervisorHome({ nav }: SBag) {
                   <td><b>{s.cls}</b></td>
                   <td>{s.teacher}</td>
                   <td><span className={'num ' + (s.avg>=85?'band-high':s.avg>=75?'band-mid-high':s.avg>=65?'band-mid':'band-low')} style={{fontWeight:700}}>{s.avg}%</span></td>
-                  <td className="num">{s.median}%</td>
+                  <td><span className="num">{s.median}%</span></td>
                   <td>{s.anomaly ? <Pill kind="late">تحتاج مراجعة</Pill> : <Pill kind="graded">طبيعي</Pill>}</td>
                 </tr>
               ))}
@@ -135,7 +135,7 @@ export function SupervisorCourses({ nav, setTeacherFocus }: SBag) {
       <div className="page-header">
         <div>
           <h1 className="page-title">المواد في نطاقي</h1>
-          <p className="page-sub">التربية الإسلامية — الصفوف 10، 11، 12 · <span className="num">{courses.length}</span> شعبة-مادة</p>
+          <p className="page-sub">التربية الإسلامية - الصفوف 10، 11، 12 · <span className="num">{courses.length}</span> شعبة-مادة</p>
         </div>
       </div>
 
@@ -170,8 +170,8 @@ export function SupervisorCourses({ nav, setTeacherFocus }: SBag) {
                 <td style={{fontWeight:500}}>{c.subject}</td>
                 <td><b>{c.cls}</b></td>
                 <td style={{fontSize:13, color:'var(--text-secondary)'}}>{c.teacher}</td>
-                <td className="num">{c.lessons}</td>
-                <td className="num">{c.graded}</td>
+                <td><span className="num">{c.lessons}</span></td>
+                <td><span className="num">{c.graded}</span></td>
                 <td>
                   <span className={'num ' + (c.avg>=85?'band-high':c.avg>=75?'band-mid-high':c.avg>=65?'band-mid':'band-low')} style={{fontWeight:700}}>
                     {c.avg}%
@@ -201,7 +201,7 @@ export function SupervisorTeacherDetail({ nav }: SBag) {
       <div className="page-header">
         <div className="row gap-3 items-center">
           <div className="avatar xl">س</div>
-          <div className="col"><h1 className="page-title">أ. سليمان الشبلي</h1><p className="page-sub">التربية الإسلامية — الصفوف 12أ، 12ب · <span className="num">44</span> طالب</p></div>
+          <div className="col"><h1 className="page-title">أ. سليمان الشبلي</h1><p className="page-sub">التربية الإسلامية - الصفوف 12أ، 12ب · <span className="num">44</span> طالب</p></div>
         </div>
         <div className="row gap-2"><button className="btn secondary" onClick={()=>nav('note-compose')}><Icon.Edit size={14}/>ملاحظة</button></div>
       </div>
@@ -216,8 +216,8 @@ export function SupervisorTeacherDetail({ nav }: SBag) {
         <table className="tbl">
           <thead><tr><th>الشعبة</th><th>الطلاب</th><th>المتوسط</th><th>الوسيط</th><th>المصحَّح</th><th></th></tr></thead>
           <tbody>
-            <tr><td><b>12أ</b></td><td className="num">22</td><td><span className="num band-mid" style={{fontWeight:700}}>68%</span> <Pill kind="late">شاذ</Pill></td><td className="num">70%</td><td>18/22</td><td><button className="btn ghost sm" onClick={()=>nav('course-drill')}>تفاصيل</button></td></tr>
-            <tr><td><b>12ب</b></td><td className="num">22</td><td><span className="num band-mid-high" style={{fontWeight:700}}>78%</span></td><td className="num">79%</td><td>21/22</td><td><button className="btn ghost sm" onClick={()=>nav('course-drill')}>تفاصيل</button></td></tr>
+            <tr><td><b>12أ</b></td><td><span className="num">22</span></td><td><span className="num band-mid" style={{fontWeight:700}}>68%</span> <Pill kind="late">شاذ</Pill></td><td><span className="num">70%</span></td><td>18/22</td><td><button className="btn ghost sm" onClick={()=>nav('course-drill')}>تفاصيل</button></td></tr>
+            <tr><td><b>12ب</b></td><td><span className="num">22</span></td><td><span className="num band-mid-high" style={{fontWeight:700}}>78%</span></td><td><span className="num">79%</span></td><td>21/22</td><td><button className="btn ghost sm" onClick={()=>nav('course-drill')}>تفاصيل</button></td></tr>
           </tbody>
         </table>
       </div>
@@ -247,10 +247,10 @@ export function SupervisorCourseDrill({ nav }: SBag) {
       <Breadcrumbs items={[
         {label:'المعلمون', onClick:()=>nav('teachers')},
         {label:'أ. سليمان الشبلي', onClick:()=>nav('teacher-detail')},
-        {label:'الصف 12أ — التربية الإسلامية'}
+        {label:'الصف 12أ - التربية الإسلامية'}
       ]}/>
       <div className="page-header">
-        <div><h1 className="page-title">الصف 12أ — التربية الإسلامية</h1><p className="page-sub">أ. سليمان الشبلي · <span className="num">22</span> طالب · متوسط <span className="num band-mid">68%</span></p></div>
+        <div><h1 className="page-title">الصف 12أ - التربية الإسلامية</h1><p className="page-sub">أ. سليمان الشبلي · <span className="num">22</span> طالب · متوسط <span className="num band-mid">68%</span></p></div>
       </div>
       <div className="row gap-4 wrap">
         <div style={{flex:'1 1 180px'}}><StatCard icon={Icon.TrendingUp} label="المتوسط" value="68%" accent="var(--warning-500)"/></div>
@@ -259,7 +259,7 @@ export function SupervisorCourseDrill({ nav }: SBag) {
         <div style={{flex:'1 1 180px'}}><StatCard icon={Icon.AlertTriangle} label="أقل من 60%" value="6 طلاب" accent="var(--danger-500)"/></div>
       </div>
       <div className="card">
-        <div className="section-head"><h2>توزيع الدرجات — الواجب الثاني</h2></div>
+        <div className="section-head"><h2>توزيع الدرجات - الواجب الثاني</h2></div>
         <div className="hist-wrap">
           {[
             {range:'90–100', v:2}, {range:'80–89', v:4}, {range:'70–79', v:6},
@@ -289,8 +289,8 @@ export function SupervisorCourseDrill({ nav }: SBag) {
               <tr key={i}>
                 <td className="row gap-2 items-center"><div className="avatar sm">{s.i}</div><span>{s.n}</span></td>
                 <td><span className={'num ' + (s.avg>=85?'band-high':s.avg>=75?'band-mid-high':s.avg>=65?'band-mid':'band-low')} style={{fontWeight:700}}>{s.avg}%</span></td>
-                <td className="num">{s.g1}/20</td>
-                <td className="num">{s.g2}/25</td>
+                <td><span className="num">{s.g1}/20</span></td>
+                <td><span className="num">{s.g2}/25</span></td>
                 <td>{s.warn ? <Pill kind="late">يحتاج متابعة</Pill> : <Pill kind="graded">طبيعي</Pill>}</td>
               </tr>
             ))}
@@ -333,7 +333,7 @@ export function SupervisorReports() {
 export function SupervisorNotes({ nav }: SBag) {
   return (
     <div className="col gap-5">
-      <div className="page-header"><div><h1 className="page-title">ملاحظاتي</h1><p className="page-sub">ملاحظاتك الخاصة عن المعلمين والطلاب في نطاقك — خاصة بك فقط</p></div><button className="btn primary" onClick={()=>nav('note-compose')}><Icon.Plus size={14}/>ملاحظة جديدة</button></div>
+      <div className="page-header"><div><h1 className="page-title">ملاحظاتي</h1><p className="page-sub">ملاحظاتك الخاصة عن المعلمين والطلاب في نطاقك - خاصة بك فقط</p></div><button className="btn primary" onClick={()=>nav('note-compose')}><Icon.Plus size={14}/>ملاحظة جديدة</button></div>
       <div className="col gap-3">
         {D.supervisorNotes.map((n,i) => (
           <div key={i} className="card">
@@ -362,7 +362,7 @@ export function SupervisorNoteCompose({ nav }: SBag) {
   return (
     <div className="col gap-5">
       <Breadcrumbs items={[{label:'الملاحظات', onClick:()=>nav('notes')},{label:'ملاحظة جديدة'}]}/>
-      <div className="page-header"><div><h1 className="page-title">ملاحظة جديدة</h1><p className="page-sub">هذه الملاحظة خاصة بك فقط — لا يراها أحد غيرك</p></div></div>
+      <div className="page-header"><div><h1 className="page-title">ملاحظة جديدة</h1><p className="page-sub">هذه الملاحظة خاصة بك فقط - لا يراها أحد غيرك</p></div></div>
       <div className="card">
         <div className="col gap-4">
           <div className="field">
@@ -449,10 +449,13 @@ export function SupervisorProfile() {
           <div className="col center gap-3" style={{padding:'8px 0 16px'}}><div className="avatar xl">ح</div><div className="col center"><div style={{fontSize:17, fontWeight:700}}>{u.name}</div><div style={{fontSize:13, color:'var(--text-secondary)'}}>مشرف</div></div></div>
           <div className="muqarnas-div"/>
           <div className="col gap-3" style={{fontSize:13}}>
-            <div className="row between"><span style={{color:'var(--text-tertiary)'}}>البريد</span><span className="latin">{u.email}</span></div>
-            <div className="row between"><span style={{color:'var(--text-tertiary)'}}>نطاق الإشراف</span><span style={{textAlign:'end', maxWidth:200}}>{u.scope}</span></div>
-            <div className="row between"><span style={{color:'var(--text-tertiary)'}}>المعلمون</span><span className="num">3</span></div>
-            <div className="row between"><span style={{color:'var(--text-tertiary)'}}>الشعب</span><span className="num">6</span></div>
+            <div className="row between items-center"><span style={{color:'var(--text-tertiary)'}}>البريد</span><span className="latin" style={{fontSize:12}}>{u.email}</span></div>
+            <div className="col gap-1" style={{paddingTop:4, paddingBottom:4, borderTop:'1px solid var(--border-subtle)', borderBottom:'1px solid var(--border-subtle)'}}>
+              <span style={{color:'var(--text-tertiary)', fontSize:12}}>نطاق الإشراف</span>
+              <span style={{fontSize:13, lineHeight:1.6, color:'var(--text-primary)'}}>{u.scope}</span>
+            </div>
+            <div className="row between items-center"><span style={{color:'var(--text-tertiary)'}}>المعلمون</span><span className="num">3</span></div>
+            <div className="row between items-center"><span style={{color:'var(--text-tertiary)'}}>الشعب</span><span className="num">6</span></div>
           </div>
         </div>
         <div className="card grow" style={{flex:'2 1 480px'}}>
