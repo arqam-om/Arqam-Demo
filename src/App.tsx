@@ -38,7 +38,8 @@ const screenToNavKey = (s: Screen): string => ({
 } as Record<string,string>)[s] || s;
 
 export default function App() {
-  const [auth, setAuth] = useState<{ role: Role; user: AuthUser } | null>(null);
+  const [auth, setAuth] = useState<{ user: AuthUser } | null>(null);
+  const [viewRole, setViewRole] = useState<Role>('admin');
   const [screen, setScreen] = useState<Screen>('home');
   const [courseId, setCourseId] = useState('c1');
   const [lessonN, setLessonN] = useState(5);
@@ -47,16 +48,26 @@ export default function App() {
 
   if (!auth) {
     return (
-      <LoginScreen onLogin={(role: Role) => {
-        setAuth({ role, user: ArqamData.cast[role] as AuthUser });
+      <LoginScreen onLogin={(castKey: string) => {
+        const user = ArqamData.cast[castKey] as AuthUser;
+        setAuth({ user });
+        setViewRole(user.role);
         setScreen('home');
       }}/>
     );
   }
 
   const { user } = auth;
-  const navItems = NAV[user.role];
+  // For dual-role users, active role is viewRole; otherwise user.role
+  const activeRole: Role = user.secondaryRole ? viewRole : user.role;
+  const navItems = NAV[activeRole];
   const activeKey = screenToNavKey(screen);
+
+  const onSwitchRole = user.secondaryRole ? () => {
+    const next = viewRole === user.role ? user.secondaryRole! : user.role;
+    setViewRole(next);
+    setScreen('home');
+  } : undefined;
 
   const bag: ScreenBag = {
     nav: setScreen,
@@ -74,7 +85,7 @@ export default function App() {
 
   let content: React.ReactNode = null;
 
-  if (user.role === 'student') {
+  if (activeRole === 'student') {
     content = screen==='home'         ? <StudentHome {...bag}/>
       : screen==='courses'            ? <StudentCourses {...bag}/>
       : screen==='course'             ? <StudentCourseWorkspace {...bag}/>
@@ -86,7 +97,7 @@ export default function App() {
       : screen==='timetable'          ? <StudentTimetable/>
       : screen==='profile'            ? <StudentProfile/>
       : <StudentHome {...bag}/>;
-  } else if (user.role === 'teacher') {
+  } else if (activeRole === 'teacher') {
     content = screen==='home'         ? <TeacherHome {...bag}/>
       : screen==='courses'            ? <TeacherCourses {...bag}/>
       : screen==='course'             ? <TeacherCourseWorkspace {...bag}/>
@@ -100,7 +111,7 @@ export default function App() {
       : screen==='timetable'          ? <TeacherTimetable/>
       : screen==='profile'            ? <TeacherProfile/>
       : <TeacherHome {...bag}/>;
-  } else if (user.role === 'supervisor') {
+  } else if (activeRole === 'supervisor') {
     content = screen==='home'         ? <SupervisorHome {...bag}/>
       : screen==='teachers'           ? <SupervisorTeachers {...bag}/>
       : screen==='teacher-detail'     ? <SupervisorTeacherDetail {...bag}/>
@@ -114,7 +125,7 @@ export default function App() {
       : screen==='announce-compose'   ? <AnnouncementCompose nav={bag.nav} role="supervisor"/>
       : screen==='profile'            ? <SupervisorProfile/>
       : <SupervisorHome {...bag}/>;
-  } else if (user.role === 'admin') {
+  } else if (activeRole === 'admin') {
     content = screen==='home'         ? <AdminHome {...bag}/>
       : screen==='settings'           ? <AdminSettings/>
       : screen==='grades'             ? <AdminGrades {...bag}/>
@@ -131,7 +142,8 @@ export default function App() {
   }
 
   return (
-    <Shell user={user} navItems={navItems} activeKey={activeKey} onNav={setScreen} onLogout={onLogout}>
+    <Shell user={user} viewRole={activeRole} navItems={navItems} activeKey={activeKey}
+      onNav={setScreen} onLogout={onLogout} onSwitchRole={onSwitchRole}>
       {content}
     </Shell>
   );

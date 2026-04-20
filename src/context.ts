@@ -14,6 +14,7 @@ export interface AuthUser {
   name: string;
   shortName: string;
   role: Role;
+  secondaryRole?: Role;   // dual-role users only
   email: string;
   avatarInitial: string;
   title?: string;

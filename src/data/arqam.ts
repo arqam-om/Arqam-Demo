@@ -67,6 +67,7 @@ export const ArqamData = {
     teacher: { id:'t1', name:'الأستاذ أحمد بن خالد الحارثي', shortName:'أ. أحمد الحارثي', role:'teacher', title:'أستاذ التربية الإسلامية', email:'ahmed.harithi@arqam.edu.om', avatarInitial:'أ' },
     supervisor: { id:'sv1', name:'الأستاذ حسن بن عبدالله البلوشي', shortName:'أ. حسن البلوشي', role:'supervisor', email:'hassan.balushi@arqam.edu.om', scope:'التربية الإسلامية — الصفوف 10، 11، 12', avatarInitial:'ح' },
     admin: { id:'a1', name:'الأستاذ سعيد بن ناصر العامري', shortName:'أ. سعيد العامري', role:'admin', email:'said.ameri@arqam.edu.om', avatarInitial:'س' },
+    dualAdmin: { id:'da1', name:'الأستاذ خالد بن عمر الرحبي', shortName:'أ. خالد الرحبي', role:'admin', secondaryRole:'supervisor', email:'khaled.rahbi@arqam.edu.om', scope:'اللغة الإنجليزية — الصفوف 10، 11، 12', avatarInitial:'خ' },
   } as Record<string, CastMember>,
 
   roster11A: [

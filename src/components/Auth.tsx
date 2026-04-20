@@ -51,14 +51,15 @@ const QUOTES = [
 ];
 
 const roles = [
-  { k: 'student'    as Role, l: 'طالب',   e: 'ahmed.kindi@arqam.edu.om'   },
-  { k: 'teacher'    as Role, l: 'معلم',   e: 'ahmed.harithi@arqam.edu.om' },
-  { k: 'supervisor' as Role, l: 'مشرف',   e: 'hassan.balushi@arqam.edu.om' },
-  { k: 'admin'      as Role, l: 'إداري',  e: 'said.ameri@arqam.edu.om'    },
+  { k: 'student',    l: 'طالب',         e: 'ahmed.kindi@arqam.edu.om'    },
+  { k: 'teacher',    l: 'معلم',         e: 'ahmed.harithi@arqam.edu.om'  },
+  { k: 'supervisor', l: 'مشرف',         e: 'hassan.balushi@arqam.edu.om' },
+  { k: 'admin',      l: 'إداري',        e: 'said.ameri@arqam.edu.om'     },
+  { k: 'dualAdmin',  l: 'إداري / مشرف', e: 'khaled.rahbi@arqam.edu.om'   },
 ];
 
-export function LoginScreen({ onLogin }: { onLogin: (role: Role) => void }) {
-  const [role, setRole]         = useState<Role>('student');
+export function LoginScreen({ onLogin }: { onLogin: (castKey: string) => void }) {
+  const [castKey, setCastKey]   = useState('student');
   const [email, setEmail]       = useState('ahmed.kindi@arqam.edu.om');
   const [pwd, setPwd]           = useState('••••••••');
   const [showPwd, setShowPwd]   = useState(false);
@@ -66,7 +67,7 @@ export function LoginScreen({ onLogin }: { onLogin: (role: Role) => void }) {
   const [view, setView]         = useState<'login'|'forgot'|'sent'|'reset'|'success'>('login');
   const quote = useMemo(() => QUOTES[Math.floor(Math.random() * QUOTES.length)], []);
 
-  const chooseRole = (r: typeof roles[0]) => { setRole(r.k); setEmail(r.e); };
+  const chooseRole = (r: typeof roles[0]) => { setCastKey(r.k); setEmail(r.e); };
 
   if (view === 'forgot')  return <ForgotScreen  onBack={()=>setView('login')}  onSent={()=>setView('sent')}/>;
   if (view === 'sent')    return <SentScreen     onBack={()=>setView('login')}  onOpen={()=>setView('reset')}/>;
@@ -117,7 +118,7 @@ export function LoginScreen({ onLogin }: { onLogin: (role: Role) => void }) {
               <div className="row gap-2 wrap">
                 {roles.map(r => (
                   <button key={r.k} type="button"
-                    className={'tab-chip' + (role===r.k?' active':'')}
+                    className={'tab-chip' + (castKey===r.k?' active':'')}
                     onClick={()=>chooseRole(r)}>{r.l}</button>
                 ))}
               </div>
@@ -154,7 +155,7 @@ export function LoginScreen({ onLogin }: { onLogin: (role: Role) => void }) {
               <button type="button" className="btn link" onClick={()=>setView('forgot')}>نسيت كلمة المرور؟</button>
             </div>
 
-            <button className="btn primary lg block" onClick={()=>onLogin(role)}>تسجيل الدخول</button>
+            <button className="btn primary lg block" onClick={()=>onLogin(castKey)}>تسجيل الدخول</button>
           </div>
 
           <div className="muqarnas-div"/>

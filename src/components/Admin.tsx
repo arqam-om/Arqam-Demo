@@ -268,7 +268,7 @@ function CreateUserModal({ onClose }: { onClose: ()=>void }) {
         <div className="field">
           <label>الدور</label>
           <div className="row gap-2">
-            {[['student','طالب'],['teacher','معلم'],['supervisor','مشرف'],['admin','إداري']].map(([k,l]) => (
+            {[['student','طالب'],['teacher','معلم'],['supervisor','مشرف']].map(([k,l]) => (
               <label key={k} className={'role-pick'+(role===k?' active':'')} onClick={()=>setRole(k)}>
                 <input type="radio" name="role" checked={role===k} onChange={()=>{}} readOnly/>
                 <span>{l}</span>
@@ -445,25 +445,90 @@ export function AdminAnnouncements({ nav }: ABag) {
 
 export function AdminProfile() {
   const u = D.cast.admin;
+  const t = useToast();
   return (
     <div className="col gap-5">
       <div className="page-header"><div><h1 className="page-title">ملفي الشخصي</h1></div></div>
+
       <div className="row gap-5 items-start wrap">
-        <div className="card" style={{flex:'1 1 280px'}}>
-          <div className="col center gap-3" style={{padding:'8px 0 16px'}}><div className="avatar xl">س</div><div className="col center"><div style={{fontSize:17, fontWeight:700}}>{u.name}</div><div style={{fontSize:13, color:'var(--text-secondary)'}}>إداري — {D.institution.name}</div></div></div>
+
+        {/* Identity card */}
+        <div className="card" style={{flex:'1 1 260px'}}>
+          <div className="col center gap-4" style={{padding:'12px 0 20px'}}>
+            <div className="avatar xl" style={{fontSize:28}}>س</div>
+            <div className="col center gap-1">
+              <div style={{fontSize:17, fontWeight:700}}>{u.name}</div>
+              <div style={{fontSize:13, color:'var(--text-secondary)'}}>{D.institution.name}</div>
+              <span className="pill graded" style={{marginTop:4}}>إدارة كاملة</span>
+            </div>
+          </div>
           <div className="muqarnas-div"/>
           <div className="col gap-3" style={{fontSize:13}}>
-            <div className="row between"><span style={{color:'var(--text-tertiary)'}}>البريد</span><span className="latin">{u.email}</span></div>
-            <div className="row between"><span style={{color:'var(--text-tertiary)'}}>الصلاحيات</span><span>إدارة كاملة</span></div>
+            <div className="row between items-center">
+              <span style={{color:'var(--text-tertiary)'}}>البريد</span>
+              <span className="latin" style={{color:'var(--text-secondary)', fontSize:12}}>{u.email}</span>
+            </div>
+            <div className="row between items-center">
+              <span style={{color:'var(--text-tertiary)'}}>الدور</span>
+              <span>إداري</span>
+            </div>
+            <div className="row between items-center">
+              <span style={{color:'var(--text-tertiary)'}}>المعهد</span>
+              <span>م.م.ع.إ</span>
+            </div>
           </div>
         </div>
-        <div className="card grow" style={{flex:'2 1 480px'}}>
-          <h3 style={{margin:'0 0 16px'}}>الأمان</h3>
-          <div className="col gap-3">
-            <button className="btn secondary">تغيير كلمة المرور</button>
-            <button className="btn secondary">تفعيل المصادقة الثنائية</button>
-            <button className="btn ghost" style={{color:'var(--danger-500)'}}>سجل العمليات الإدارية</button>
+
+        {/* Settings column */}
+        <div className="col gap-4" style={{flex:'2 1 480px'}}>
+
+          {/* Password section */}
+          <div className="card">
+            <div className="section-head"><h2>كلمة المرور</h2></div>
+            <div className="col gap-3">
+              <div className="field">
+                <label>كلمة المرور الحالية</label>
+                <input type="password" className="input" placeholder="••••••••"/>
+              </div>
+              <div className="row gap-3">
+                <div className="field grow">
+                  <label>كلمة المرور الجديدة</label>
+                  <input type="password" className="input"/>
+                </div>
+                <div className="field grow">
+                  <label>تأكيد كلمة المرور</label>
+                  <input type="password" className="input"/>
+                </div>
+              </div>
+              <div className="row end">
+                <button className="btn primary" onClick={()=>t.showToast('تم تحديث كلمة المرور.')}>حفظ</button>
+              </div>
+            </div>
           </div>
+
+          {/* Security settings */}
+          <div className="card">
+            <div className="section-head"><h2>الأمان</h2></div>
+            <div className="col" style={{gap:0}}>
+              {/* 2FA row */}
+              <div className="row between items-center" style={{padding:'14px 0', borderBottom:'1px solid var(--border-subtle)'}}>
+                <div className="col" style={{gap:3}}>
+                  <div style={{fontSize:14, fontWeight:500}}>المصادقة الثنائية</div>
+                  <div style={{fontSize:12, color:'var(--text-tertiary)'}}>طبقة حماية إضافية عند تسجيل الدخول</div>
+                </div>
+                <button className="btn secondary sm">تفعيل</button>
+              </div>
+              {/* Admin log row */}
+              <div className="row between items-center" style={{padding:'14px 0'}}>
+                <div className="col" style={{gap:3}}>
+                  <div style={{fontSize:14, fontWeight:500}}>سجل العمليات الإدارية</div>
+                  <div style={{fontSize:12, color:'var(--text-tertiary)'}}>عرض تاريخ جميع الإجراءات المنفَّذة على النظام</div>
+                </div>
+                <button className="btn ghost sm"><Icon.Eye size={14}/>عرض السجل</button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

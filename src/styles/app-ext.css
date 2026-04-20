@@ -162,6 +162,28 @@
 }
 
 /* ══════════════════════════════════════════
+   DUAL-ROLE SWITCH BUTTON (topbar)
+══════════════════════════════════════════ */
+.role-view-switch {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.28);
+  color: var(--accent-500);
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+  transition: background var(--motion-fast), border-color var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast);
+}
+.role-view-switch:hover {
+  background: rgba(212,175,55,0.18);
+  border-color: rgba(212,175,55,0.5);
+  box-shadow: 0 0 12px rgba(212,175,55,0.15);
+  transform: translateY(-1px);
+}
+.role-view-switch:active { transform: translateY(0); }
+
+/* ══════════════════════════════════════════
    ADDITIONAL TYPOGRAPHY / HELPERS
 ══════════════════════════════════════════ */
 

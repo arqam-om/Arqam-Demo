@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { Icon, IconByName } from './Icons';
 import { ToastCtx, useToast } from '../context';
 import type { AuthUser, NavItem } from '../context';
@@ -68,10 +68,11 @@ export function ArqamBrand({ size = 80 }: { size?: number }) {
 }
 
 // ===== Topbar =====
-function Topbar({ user, onOpenNotifications, onOpenSearch, unread = 0, onLogout }: {
-  user: AuthUser; onOpenNotifications: () => void; onOpenSearch: () => void;
-  unread?: number; onLogout: () => void;
+function Topbar({ user, viewRole, onOpenNotifications, onOpenSearch, unread = 0, onRequestLogout, onSwitchRole }: {
+  user: AuthUser; viewRole: string; onOpenNotifications: () => void; onOpenSearch: () => void;
+  unread?: number; onRequestLogout: () => void; onSwitchRole?: () => void;
 }) {
+  const switchLabel = viewRole === 'admin' ? 'عرض المشرف' : 'عرض الإداري';
   return (
     <header className="arq-topbar">
       <div className="row gap-3 items-center">
@@ -79,6 +80,15 @@ function Topbar({ user, onOpenNotifications, onOpenSearch, unread = 0, onLogout 
         <div style={{width:1,height:20,background:'var(--border-default)'}}/>
         <span style={{fontSize:14,color:'var(--text-primary)',fontWeight:500}}>معهد مسقط للعلوم الإسلامية</span>
       </div>
+      {/* Dual-role switch button — only shown when user has a secondary role */}
+      {onSwitchRole && (
+        <button className="role-view-switch" onClick={onSwitchRole} aria-label={switchLabel}>
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
+          </svg>
+          <span>{switchLabel}</span>
+        </button>
+      )}
       <button className="arq-search-trigger" onClick={onOpenSearch} aria-label="البحث">
         <Icon.Search size={16}/>
         <span>ابحث في أرقم…</span>
@@ -95,9 +105,9 @@ function Topbar({ user, onOpenNotifications, onOpenSearch, unread = 0, onLogout 
           <div className="avatar md">{user.avatarInitial}</div>
           <div className="col" style={{gap:0}}>
             <span style={{fontSize:13,fontWeight:500,lineHeight:1.3}}>{user.shortName}</span>
-            <span style={{fontSize:11,color:'var(--text-secondary)',lineHeight:1.3}}>{roleLabel(user.role)}</span>
+            <span style={{fontSize:11,color:'var(--text-secondary)',lineHeight:1.3}}>{roleLabel(viewRole)}</span>
           </div>
-          <button className="arq-iconbtn sm" onClick={onLogout} aria-label="تسجيل الخروج" title="تسجيل الخروج">
+          <button className="arq-iconbtn sm" onClick={onRequestLogout} aria-label="تسجيل الخروج" title="تسجيل الخروج">
             <Icon.Logout size={16}/>
           </button>
         </div>
@@ -111,10 +121,26 @@ export function roleLabel(r: string) {
 }
 
 // ===== Sidebar =====
+// ── Animation 5: sidebar sliding indicator ──
 function Sidebar({ activeKey, onNav, items }: { activeKey: string; onNav: (k: string) => void; items: NavItem[] }) {
+  const navRef = useRef<HTMLElement>(null);
+  const [indicator, setIndicator] = useState<{ top: number; height: number } | null>(null);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const activeBtn = nav.querySelector<HTMLElement>('.sb-item.active');
+    if (!activeBtn) { setIndicator(null); return; }
+    setIndicator({ top: activeBtn.offsetTop + 6, height: activeBtn.offsetHeight - 12 });
+  }, [activeKey]);
+
   return (
     <aside className="arq-sidebar" aria-label="التنقل الرئيسي">
-      <nav>
+      <nav ref={navRef} style={{ position: 'relative' }}>
+        {/* Sliding glow indicator */}
+        {indicator && (
+          <div className="sb-indicator" style={{ top: indicator.top, height: indicator.height }}/>
+        )}
         {items.map(it => (
           <button key={it.key}
             className={'sb-item' + (activeKey === it.key ? ' active' : '')}
@@ -258,12 +284,14 @@ function GlobalSearch({ onClose }: { onClose: () => void }) {
 }
 
 // ===== Shell =====
-export function Shell({ user, navItems, activeKey, onNav, onLogout, children }: {
-  user: AuthUser; navItems: NavItem[]; activeKey: string;
-  onNav: (k: string) => void; onLogout: () => void; children: React.ReactNode;
+export function Shell({ user, viewRole, navItems, activeKey, onNav, onLogout, onSwitchRole, children }: {
+  user: AuthUser; viewRole: string; navItems: NavItem[]; activeKey: string;
+  onNav: (k: string) => void; onLogout: () => void;
+  onSwitchRole?: () => void; children: React.ReactNode;
 }) {
   const [showNotif, setShowNotif] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [confirmLogout, setConfirmLogout] = useState(false);
   const [toast, setToast] = useState<{msg:string;kind:string;id:number}|null>(null);
 
   useEffect(() => {
@@ -287,14 +315,39 @@ export function Shell({ user, navItems, activeKey, onNav, onLogout, children }: 
   return (
     <ToastCtx.Provider value={ctx}>
       <div className="arq-shell">
-        <Topbar user={user} onOpenNotifications={()=>setShowNotif(true)}
-          onOpenSearch={()=>setShowSearch(true)} onLogout={onLogout} unread={unread}/>
+        <Topbar user={user} viewRole={viewRole} onOpenNotifications={()=>setShowNotif(true)}
+          onOpenSearch={()=>setShowSearch(true)} onRequestLogout={()=>setConfirmLogout(true)}
+          unread={unread} onSwitchRole={onSwitchRole}/>
         <div className="arq-body">
           <Sidebar activeKey={activeKey} onNav={onNav} items={navItems}/>
           <main className="arq-main">{children}</main>
         </div>
         {showNotif && <NotificationsPanel onClose={()=>setShowNotif(false)} role={user.role}/>}
         {showSearch && <GlobalSearch onClose={()=>setShowSearch(false)}/>}
+        {confirmLogout && (
+          <>
+            <div className="arq-overlay" onClick={()=>setConfirmLogout(false)}/>
+            <div className="arq-modal" style={{maxWidth:360}} role="dialog" aria-label="تأكيد تسجيل الخروج">
+              <div style={{padding:'32px 28px 12px', textAlign:'center'}}>
+                <div style={{
+                  width:54, height:54, borderRadius:'50%', margin:'0 auto 18px',
+                  background:'rgba(204,107,107,0.1)', border:'1px solid rgba(204,107,107,0.2)',
+                  display:'grid', placeItems:'center', color:'var(--danger-500)',
+                }}>
+                  <Icon.Logout size={22}/>
+                </div>
+                <h2 style={{margin:'0 0 8px', fontSize:18, fontWeight:700}}>تسجيل الخروج</h2>
+                <p style={{margin:0, fontSize:14, color:'var(--text-secondary)', lineHeight:1.7}}>
+                  هل تريد تسجيل الخروج من أرقم؟
+                </p>
+              </div>
+              <div className="row gap-3" style={{padding:'16px 28px 28px'}}>
+                <button className="btn danger block" style={{flex:1}} onClick={onLogout}>تسجيل الخروج</button>
+                <button className="btn secondary block" style={{flex:1}} onClick={()=>setConfirmLogout(false)}>إلغاء</button>
+              </div>
+            </div>
+          </>
+        )}
         {toast && (
           <div className="toast-wrap">
             <div className={'toast' + (toast.kind==='error'?' error':'')}>
@@ -328,17 +381,40 @@ export function EmptyState({ title, body, action }: { title: string; body?: stri
   );
 }
 
+// ── Animation 3: count-up for numeric stat card values ──
+function useCountUp(target: number, duration = 750): number {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (target === 0) return;
+    const start = performance.now();
+    const step = (now: number) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3); // cubic ease-out
+      setCount(Math.round(eased * target));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    const id = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(id);
+  }, [target, duration]);
+  return count;
+}
+
 export function StatCard({ icon: IconC, label, value, sub, onClick, accent }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon?: React.ComponentType<any>; label: string; value: string|number;
   sub?: string; onClick?: () => void; accent?: string;
 }) {
+  const isPlainNum = /^\d+$/.test(String(value));
+  const numTarget = isPlainNum ? parseInt(String(value), 10) : 0;
+  const counted = useCountUp(numTarget);
+  const display = isPlainNum ? counted : value;
+
   return (
     <div className={'card' + (onClick?' clickable':'')} onClick={onClick} style={{padding:20}}>
       <div className="row between items-start">
         <div className="col gap-1">
           <div style={{fontSize:13, color:'var(--text-secondary)', fontWeight:500}}>{label}</div>
-          <div className="num" style={{fontSize:28, fontWeight:700, color: accent||'var(--text-primary)'}}>{value}</div>
+          <div className="num" style={{fontSize:28, fontWeight:700, color: accent||'var(--text-primary)'}}>{display}</div>
           {sub && <div style={{fontSize:12, color:'var(--text-tertiary)'}}>{sub}</div>}
         </div>
         {IconC && <span className="stat-ico"><IconC size={18}/></span>}
@@ -347,16 +423,28 @@ export function StatCard({ icon: IconC, label, value, sub, onClick, accent }: {
   );
 }
 
+// ── Animation 2: progress ring draws on mount ──
 export function ProgressRing({ pct, size=80, stroke=6, color }: { pct:number; size?:number; stroke?:number; color?:string }) {
+  const [drawn, setDrawn] = useState(false);
   const r = (size-stroke)/2;
   const c = 2*Math.PI*r;
   const col = color || (pct>=90?'var(--success-500)':pct>=80?'var(--accent-500)':pct>=70?'var(--warning-500)':'var(--danger-500)');
+
+  useEffect(() => {
+    const t = setTimeout(() => setDrawn(true), 80);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <div className="ring-wrap" style={{width:size, height:size}}>
       <svg width={size} height={size}>
         <circle cx={size/2} cy={size/2} r={r} stroke="var(--border-subtle)" strokeWidth={stroke} fill="none"/>
         <circle cx={size/2} cy={size/2} r={r} stroke={col} strokeWidth={stroke} fill="none"
-          strokeDasharray={c} strokeDashoffset={c*(1-pct/100)} strokeLinecap="round"/>
+          strokeDasharray={c}
+          strokeDashoffset={drawn ? c*(1-pct/100) : c}
+          strokeLinecap="round"
+          style={{ transition: 'stroke-dashoffset 900ms cubic-bezier(0.25, 0, 0, 1)' }}
+        />
       </svg>
       <span className="ring-val num" style={{fontSize:size*0.3, fontWeight:700}}>{pct}%</span>
     </div>
