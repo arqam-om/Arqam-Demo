@@ -4,15 +4,15 @@ import { Icon } from './Icons';
 import type { Role } from '../context';
 
 const roles = [
-  { k: 'student'    as Role, l: 'طالب',   e: 'ahmed.kindi@mis.edu.om'   },
-  { k: 'teacher'    as Role, l: 'معلم',   e: 'ahmed.harithi@mis.edu.om' },
-  { k: 'supervisor' as Role, l: 'مشرف',   e: 'hassan.balushi@mis.edu.om' },
-  { k: 'admin'      as Role, l: 'إداري',  e: 'said.ameri@mis.edu.om'    },
+  { k: 'student'    as Role, l: 'طالب',   e: 'ahmed.kindi@arqam.edu.om'   },
+  { k: 'teacher'    as Role, l: 'معلم',   e: 'ahmed.harithi@arqam.edu.om' },
+  { k: 'supervisor' as Role, l: 'مشرف',   e: 'hassan.balushi@arqam.edu.om' },
+  { k: 'admin'      as Role, l: 'إداري',  e: 'said.ameri@arqam.edu.om'    },
 ];
 
 export function LoginScreen({ onLogin }: { onLogin: (role: Role) => void }) {
   const [role, setRole]         = useState<Role>('student');
-  const [email, setEmail]       = useState('ahmed.kindi@mis.edu.om');
+  const [email, setEmail]       = useState('ahmed.kindi@arqam.edu.om');
   const [pwd, setPwd]           = useState('••••••••');
   const [showPwd, setShowPwd]   = useState(false);
   const [remember, setRemember] = useState(true);
@@ -32,7 +32,7 @@ export function LoginScreen({ onLogin }: { onLogin: (role: Role) => void }) {
           <ArqamLogo size={64}/>
           <h1 className="t-display" style={{margin:0, lineHeight:1.2}}>أرقم</h1>
           <p style={{margin:0, fontSize:18, color:'var(--text-secondary)', maxWidth:320, lineHeight:1.7}}>
-            المنصة الرقمية للمدارس الإسلامية
+            المنصة الرقمية للمعاهد الإسلامية
           </p>
           <div style={{width:64, height:1, background:'var(--border-strong)'}}/>
           <p style={{margin:0, fontSize:14, color:'var(--text-tertiary)', maxWidth:340, lineHeight:1.8}}>
@@ -97,7 +97,7 @@ export function LoginScreen({ onLogin }: { onLogin: (role: Role) => void }) {
           <div className="muqarnas-div"/>
           <div className="col gap-2 center" style={{fontSize:12, color:'var(--text-tertiary)', textAlign:'center'}}>
             <span>للحصول على حساب، تواصل مع إدارة المعهد.</span>
-            <span>© 1447هـ أرقم — المنصة الرقمية للمدارس الإسلامية</span>
+            <span>© 1447هـ أرقم — المنصة الرقمية للمعاهد الإسلامية</span>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ export function LoginScreen({ onLogin }: { onLogin: (role: Role) => void }) {
 }
 
 function ForgotScreen({ onBack, onSent }: { onBack: ()=>void; onSent: ()=>void }) {
-  const [email, setEmail] = useState('ahmed.kindi@mis.edu.om');
+  const [email, setEmail] = useState('ahmed.kindi@arqam.edu.om');
   return (
     <div className="auth-page">
       <div className="auth-brand"><div className="auth-brand-inner"><ArqamLogo size={64}/><h1 className="t-display" style={{margin:0}}>أرقم</h1></div></div>
@@ -140,7 +140,7 @@ function SentScreen({ onBack, onOpen }: { onBack: ()=>void; onOpen: ()=>void }) 
           <h2 className="t-h1" style={{margin:0}}>تفقد بريدك الإلكتروني</h2>
           <p className="t-body" style={{color:'var(--text-secondary)',margin:0,maxWidth:360}}>
             أرسلنا رابط إعادة التعيين إلى{' '}
-            <span className="latin" style={{color:'var(--text-primary)'}}>ahmed.kindi@mis.edu.om</span>.
+            <span className="latin" style={{color:'var(--text-primary)'}}>ahmed.kindi@arqam.edu.om</span>.
             {' '}يصلح الرابط لمدة ساعة واحدة.
           </p>
           <button className="btn secondary mt-3" onClick={onOpen}>محاكاة فتح الرابط</button>

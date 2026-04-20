@@ -79,7 +79,7 @@ function Sidebar({ activeKey, onNav, items }: { activeKey: string; onNav: (k: st
       <div className="sb-footer">
         <div className="row gap-2 items-center sb-tagline">
           <Icon.StarOrnament size={16}/>
-          <div>المنصة الرقمية للمدارس الإسلامية</div>
+          <div>المنصة الرقمية للمعاهد الإسلامية</div>
         </div>
       </div>
     </aside>
@@ -249,8 +249,12 @@ export function Shell({ user, navItems, activeKey, onNav, onLogout, children }: 
         {toast && (
           <div className="toast-wrap">
             <div className={'toast' + (toast.kind==='error'?' error':'')}>
-              {toast.kind === 'error' ? <Icon.AlertTriangle size={16}/> : <Icon.CheckCircle size={16}/>}
-              <span>{toast.msg}</span>
+              <span className="toast-icon">
+                {toast.kind === 'error'
+                  ? <Icon.AlertTriangle size={16}/>
+                  : <Icon.CheckCircle size={16}/>}
+              </span>
+              <span style={{lineHeight:1.5}}>{toast.msg}</span>
             </div>
           </div>
         )}

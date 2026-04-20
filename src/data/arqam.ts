@@ -63,10 +63,10 @@ export const ArqamData = {
   } as Institution,
 
   cast: {
-    student: { id:'s1', name:'أحمد بن سالم الكندي', shortName:'أحمد الكندي', role:'student', grade:'الصف الحادي عشر', section:'الشعبة أ', email:'ahmed.kindi@mis.edu.om', avatarInitial:'أ' },
-    teacher: { id:'t1', name:'الأستاذ أحمد بن خالد الحارثي', shortName:'أ. أحمد الحارثي', role:'teacher', title:'أستاذ التربية الإسلامية', email:'ahmed.harithi@mis.edu.om', avatarInitial:'أ' },
-    supervisor: { id:'sv1', name:'الأستاذ حسن بن عبدالله البلوشي', shortName:'أ. حسن البلوشي', role:'supervisor', email:'hassan.balushi@mis.edu.om', scope:'التربية الإسلامية — الصفوف 10، 11، 12', avatarInitial:'ح' },
-    admin: { id:'a1', name:'الأستاذ سعيد بن ناصر العامري', shortName:'أ. سعيد العامري', role:'admin', email:'said.ameri@mis.edu.om', avatarInitial:'س' },
+    student: { id:'s1', name:'أحمد بن سالم الكندي', shortName:'أحمد الكندي', role:'student', grade:'الصف الحادي عشر', section:'الشعبة أ', email:'ahmed.kindi@arqam.edu.om', avatarInitial:'أ' },
+    teacher: { id:'t1', name:'الأستاذ أحمد بن خالد الحارثي', shortName:'أ. أحمد الحارثي', role:'teacher', title:'أستاذ التربية الإسلامية', email:'ahmed.harithi@arqam.edu.om', avatarInitial:'أ' },
+    supervisor: { id:'sv1', name:'الأستاذ حسن بن عبدالله البلوشي', shortName:'أ. حسن البلوشي', role:'supervisor', email:'hassan.balushi@arqam.edu.om', scope:'التربية الإسلامية — الصفوف 10، 11، 12', avatarInitial:'ح' },
+    admin: { id:'a1', name:'الأستاذ سعيد بن ناصر العامري', shortName:'أ. سعيد العامري', role:'admin', email:'said.ameri@arqam.edu.om', avatarInitial:'س' },
   } as Record<string, CastMember>,
 
   roster11A: [
@@ -198,18 +198,18 @@ export const ArqamData = {
   ] as SupervisorNote[],
 
   userList: [
-    { name:'أحمد بن سالم الكندي',         role:'طالب',  email:'ahmed.kindi@mis.edu.om',    created:'2025-09-01', lastLogin:'اليوم 09:15' },
-    { name:'سعود بن خالد الحبسي',         role:'طالب',  email:'saud.habsi@mis.edu.om',      created:'2025-09-01', lastLogin:'أمس 14:22' },
-    { name:'يوسف بن علي المعمري',         role:'طالب',  email:'yousuf.mamari@mis.edu.om',   created:'2025-09-01', lastLogin:'اليوم 07:45' },
-    { name:'الأستاذ أحمد بن خالد الحارثي', role:'معلم',  email:'ahmed.harithi@mis.edu.om',   created:'2025-08-15', lastLogin:'اليوم 08:03' },
-    { name:'الأستاذ خالد بن محمد السيابي', role:'معلم',  email:'khaled.siyabi@mis.edu.om',   created:'2025-08-15', lastLogin:'اليوم 07:20' },
-    { name:'الأستاذ حسن بن عبدالله البلوشي', role:'مشرف', email:'hassan.balushi@mis.edu.om', created:'2025-08-10', lastLogin:'اليوم 08:30' },
-    { name:'الأستاذ سعيد بن ناصر العامري', role:'إداري', email:'said.ameri@mis.edu.om',      created:'2025-08-01', lastLogin:'اليوم 09:00' },
-    { name:'الأستاذ طارق بن عبدالله المحرزي', role:'معلم', email:'tariq.mahruqi@mis.edu.om', created:'2025-08-15', lastLogin:'أمس 13:10' },
-    { name:'الأستاذ سليمان بن حمد الشبلي', role:'معلم', email:'suleiman.shibli@mis.edu.om', created:'2025-08-15', lastLogin:'قبل 4 أيام' },
-    { name:'طارق بن سعيد المقبالي',        role:'طالب', email:'tariq.maqbali@mis.edu.om',   created:'2025-09-01', lastLogin:'اليوم 06:55' },
-    { name:'سيف بن حمدان الخروصي',         role:'طالب', email:'saif.kharusi@mis.edu.om',    created:'2025-09-01', lastLogin:'أمس 20:11' },
-    { name:'أيمن بن منصور العيسائي',       role:'طالب', email:'ayman.esaei@mis.edu.om',     created:'2025-09-01', lastLogin:'اليوم 08:40' },
+    { name:'أحمد بن سالم الكندي',         role:'طالب',  email:'ahmed.kindi@arqam.edu.om',    created:'2025-09-01', lastLogin:'اليوم 09:15' },
+    { name:'سعود بن خالد الحبسي',         role:'طالب',  email:'saud.habsi@arqam.edu.om',      created:'2025-09-01', lastLogin:'أمس 14:22' },
+    { name:'يوسف بن علي المعمري',         role:'طالب',  email:'yousuf.mamari@arqam.edu.om',   created:'2025-09-01', lastLogin:'اليوم 07:45' },
+    { name:'الأستاذ أحمد بن خالد الحارثي', role:'معلم',  email:'ahmed.harithi@arqam.edu.om',   created:'2025-08-15', lastLogin:'اليوم 08:03' },
+    { name:'الأستاذ خالد بن محمد السيابي', role:'معلم',  email:'khaled.siyabi@arqam.edu.om',   created:'2025-08-15', lastLogin:'اليوم 07:20' },
+    { name:'الأستاذ حسن بن عبدالله البلوشي', role:'مشرف', email:'hassan.balushi@arqam.edu.om', created:'2025-08-10', lastLogin:'اليوم 08:30' },
+    { name:'الأستاذ سعيد بن ناصر العامري', role:'إداري', email:'said.ameri@arqam.edu.om',      created:'2025-08-01', lastLogin:'اليوم 09:00' },
+    { name:'الأستاذ طارق بن عبدالله المحرزي', role:'معلم', email:'tariq.mahruqi@arqam.edu.om', created:'2025-08-15', lastLogin:'أمس 13:10' },
+    { name:'الأستاذ سليمان بن حمد الشبلي', role:'معلم', email:'suleiman.shibli@arqam.edu.om', created:'2025-08-15', lastLogin:'قبل 4 أيام' },
+    { name:'طارق بن سعيد المقبالي',        role:'طالب', email:'tariq.maqbali@arqam.edu.om',   created:'2025-09-01', lastLogin:'اليوم 06:55' },
+    { name:'سيف بن حمدان الخروصي',         role:'طالب', email:'saif.kharusi@arqam.edu.om',    created:'2025-09-01', lastLogin:'أمس 20:11' },
+    { name:'أيمن بن منصور العيسائي',       role:'طالب', email:'ayman.esaei@arqam.edu.om',     created:'2025-09-01', lastLogin:'اليوم 08:40' },
   ] as UserRecord[],
 
   teacherActivity: [

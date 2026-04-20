@@ -14,7 +14,7 @@ import {
 } from './components/Teacher';
 import {
   SupervisorHome, SupervisorTeachers, SupervisorTeacherDetail,
-  SupervisorCourseDrill, SupervisorReports, SupervisorNotes,
+  SupervisorCourses, SupervisorCourseDrill, SupervisorReports, SupervisorNotes,
   SupervisorNoteCompose, SupervisorStudentsList, SupervisorAnnouncements,
   SupervisorProfile,
 } from './components/Supervisor';
@@ -105,7 +105,7 @@ export default function App() {
       : screen==='teachers'           ? <SupervisorTeachers {...bag}/>
       : screen==='teacher-detail'     ? <SupervisorTeacherDetail {...bag}/>
       : screen==='course-drill'       ? <SupervisorCourseDrill {...bag}/>
-      : screen==='courses'            ? <SupervisorTeachers {...bag}/>
+      : screen==='courses'            ? <SupervisorCourses {...bag}/>
       : screen==='reports'            ? <SupervisorReports/>
       : screen==='notes'              ? <SupervisorNotes {...bag}/>
       : screen==='note-compose'       ? <SupervisorNoteCompose {...bag}/>

@@ -112,6 +112,88 @@ export function SupervisorTeachers({ nav, setTeacherFocus }: SBag) {
   );
 }
 
+export function SupervisorCourses({ nav, setTeacherFocus }: SBag) {
+  const courses = [
+    { subject:'التربية الإسلامية 1', cls:'10أ', teacher:'أ. إبراهيم الغيلاني', avg:79, lessons:7,  graded:'20/22', anomaly:false },
+    { subject:'التربية الإسلامية 1', cls:'10ب', teacher:'أ. إبراهيم الغيلاني', avg:81, lessons:7,  graded:'21/22', anomaly:false },
+    { subject:'التربية الإسلامية 1', cls:'11أ', teacher:'أ. أحمد الحارثي',     avg:82, lessons:7,  graded:'20/22', anomaly:false },
+    { subject:'التربية الإسلامية 1', cls:'11ب', teacher:'أ. أحمد الحارثي',     avg:84, lessons:7,  graded:'22/22', anomaly:false },
+    { subject:'التربية الإسلامية 1', cls:'12أ', teacher:'أ. سليمان الشبلي',    avg:68, lessons:8,  graded:'18/22', anomaly:true  },
+    { subject:'التربية الإسلامية 1', cls:'12ب', teacher:'أ. سليمان الشبلي',    avg:78, lessons:8,  graded:'21/22', anomaly:false },
+    { subject:'التربية الإسلامية 2', cls:'11أ', teacher:'أ. أحمد الحارثي',     avg:85, lessons:6,  graded:'20/22', anomaly:false },
+    { subject:'التربية الإسلامية 2', cls:'11ب', teacher:'أ. أحمد الحارثي',     avg:83, lessons:6,  graded:'22/22', anomaly:false },
+    { subject:'التربية الإسلامية 2', cls:'12أ', teacher:'أ. سليمان الشبلي',    avg:70, lessons:5,  graded:'18/22', anomaly:true  },
+    { subject:'التربية الإسلامية 2', cls:'12ب', teacher:'أ. سليمان الشبلي',    avg:76, lessons:5,  graded:'21/22', anomaly:false },
+  ];
+
+  const [filterSubject, setFilterSubject] = useState('all');
+  const subjects = ['التربية الإسلامية 1', 'التربية الإسلامية 2'];
+  const filtered = filterSubject === 'all' ? courses : courses.filter(c => c.subject === filterSubject);
+
+  return (
+    <div className="col gap-5">
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">المواد في نطاقي</h1>
+          <p className="page-sub">التربية الإسلامية — الصفوف 10، 11، 12 · <span className="num">{courses.length}</span> شعبة-مادة</p>
+        </div>
+      </div>
+
+      <div className="row gap-2 wrap">
+        <button className={'tab-chip' + (filterSubject==='all'?' active':'')} onClick={()=>setFilterSubject('all')}>
+          الكل · <span className="num">{courses.length}</span>
+        </button>
+        {subjects.map(s => (
+          <button key={s} className={'tab-chip' + (filterSubject===s?' active':'')} onClick={()=>setFilterSubject(s)}>
+            {s}
+          </button>
+        ))}
+      </div>
+
+      <div className="card" style={{padding:0, overflow:'hidden'}}>
+        <table className="tbl">
+          <thead>
+            <tr>
+              <th>المادة</th>
+              <th>الشعبة</th>
+              <th>المعلم</th>
+              <th>الدروس</th>
+              <th>المصحَّح</th>
+              <th>المتوسط</th>
+              <th>الحالة</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((c, i) => (
+              <tr key={i}>
+                <td style={{fontWeight:500}}>{c.subject}</td>
+                <td><b>{c.cls}</b></td>
+                <td style={{fontSize:13, color:'var(--text-secondary)'}}>{c.teacher}</td>
+                <td className="num">{c.lessons}</td>
+                <td className="num">{c.graded}</td>
+                <td>
+                  <span className={'num ' + (c.avg>=85?'band-high':c.avg>=75?'band-mid-high':c.avg>=65?'band-mid':'band-low')} style={{fontWeight:700}}>
+                    {c.avg}%
+                  </span>
+                </td>
+                <td>
+                  {c.anomaly
+                    ? <Pill kind="late"><Icon.AlertTriangle size={12}/>تحتاج مراجعة</Pill>
+                    : <Pill kind="graded">طبيعي</Pill>}
+                </td>
+                <td>
+                  <button className="btn ghost sm" onClick={()=>nav('course-drill')}>تفاصيل</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 export function SupervisorTeacherDetail({ nav }: SBag) {
   return (
     <div className="col gap-5">

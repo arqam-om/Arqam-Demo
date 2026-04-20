@@ -421,62 +421,73 @@ export function AssignmentSubmission({ nav, assignmentN }: SBag) {
 }
 
 export function StudentGrades() {
-  const [expanded, setExpanded] = useState(0);
+  const [expanded, setExpanded] = useState(-1);
+  const scoreOf30 = (pct: number) => Math.round(pct * 30 / 100);
+  const totalScore = D.studentGrades.reduce((sum, g) => sum + scoreOf30(g.pct), 0);
+  const maxTotal = D.studentGrades.length * 30;
+
   return (
     <div className="col gap-5">
       <div className="page-header">
-        <div><h1 className="page-title">درجاتي</h1><p className="page-sub">الفصل الدراسي الثاني · 1447–1448هـ</p></div>
+        <div><h1 className="page-title">درجاتي</h1><p className="page-sub">الفصل الدراسي الثاني · 1447–1448هـ · درجات المعلم (من 30)</p></div>
         <button className="btn secondary"><Icon.Download size={14}/>تصدير PDF</button>
       </div>
 
       <div className="card" style={{background:'linear-gradient(135deg, var(--primary-900), var(--bg-surface-1))'}}>
         <div className="row gap-5 items-center">
-          <ProgressRing pct={D.studentTermAvg} size={120} stroke={8} color="var(--accent-500)"/>
-          <div className="col grow" style={{gap:4}}>
-            <div style={{fontSize:13, color:'var(--text-secondary)'}}>متوسط الفصل الدراسي الثاني</div>
-            <div className="num" style={{fontSize:40, fontWeight:700, color:'var(--accent-500)', lineHeight:1}}>{D.studentTermAvg}%</div>
-            <div style={{fontSize:14, color:'var(--text-secondary)'}}>ممتاز — ترتيبك <span className="num" style={{color:'var(--accent-500)', fontWeight:600}}>الثاني</span> على الشعبة</div>
-          </div>
-          <div className="col gap-2">
-            <div className="row gap-2 items-center" style={{fontSize:12, color:'var(--text-tertiary)'}}><span style={{width:8, height:8, borderRadius:'50%', background:'var(--success-500)'}}/>ممتاز <span className="num">6 مواد</span></div>
-            <div className="row gap-2 items-center" style={{fontSize:12, color:'var(--text-tertiary)'}}><span style={{width:8, height:8, borderRadius:'50%', background:'var(--accent-500)'}}/>جيد جداً <span className="num">5 مواد</span></div>
+          <div className="col" style={{gap:4}}>
+            <div style={{fontSize:13, color:'var(--text-secondary)'}}>مجموع درجات المعلم — الفصل الثاني</div>
+            <div className="num" style={{fontSize:40, fontWeight:700, color:'var(--text-primary)', lineHeight:1}}>
+              {totalScore}<span style={{fontSize:20, color:'var(--text-secondary)', fontWeight:400}}>/{maxTotal}</span>
+            </div>
+            <div style={{fontSize:13, color:'var(--text-secondary)'}}>
+              درجات المعلم فقط — الاختبار الحكومي النهائي خارج النطاق
+            </div>
           </div>
         </div>
       </div>
 
       <div className="card" style={{padding:0, overflow:'hidden'}}>
-        {D.studentGrades.map((g, i) => (
-          <div key={i}>
-            <button onClick={()=>setExpanded(expanded===i?-1:i)} style={{width:'100%', display:'flex', alignItems:'center', gap:16, padding:16, background: expanded===i?'var(--bg-surface-2)':'transparent', border:'none', borderBottom:'1px solid var(--border-subtle)', color:'inherit', cursor:'pointer', textAlign:'start', fontFamily:'inherit'}}>
-              <div style={{width:4, height:32, background: g.pct>=90?'var(--success-500)':g.pct>=80?'var(--accent-500)':'var(--warning-500)', borderRadius:2}}/>
-              <div className="col grow" style={{gap:2}}>
-                <div style={{fontSize:15, fontWeight:600}}>{g.course}</div>
-                <div style={{fontSize:12, color:'var(--text-tertiary)'}}>آخر درجة: <span className="num">{g.recent}</span></div>
-              </div>
-              <div className="num" style={{fontSize:20, fontWeight:700, color: g.pct>=90?'var(--success-500)':g.pct>=80?'var(--accent-500)':'var(--warning-500)'}}>{g.pct}%</div>
-              <Icon.ChevronDown size={16} style={{transform: expanded===i?'rotate(180deg)':'none', transition:'transform 200ms'}}/>
-            </button>
-            {expanded===i && (
-              <div style={{padding:'16px 20px', background:'var(--bg-base)'}}>
-                {i===0 ? (
-                  <div className="col gap-3">
-                    <div className="row gap-3 items-center">
-                      <div style={{fontSize:13, color:'var(--text-secondary)'}}>الواجب الثاني</div>
-                      <div className="num" style={{fontWeight:600}}>23/25 — 92%</div>
-                      <Pill kind="graded">تم التصحيح</Pill>
+        {D.studentGrades.map((g, i) => {
+          const score = scoreOf30(g.pct);
+          return (
+            <div key={i}>
+              <button
+                onClick={()=>setExpanded(expanded===i?-1:i)}
+                style={{width:'100%', display:'flex', alignItems:'center', gap:16, padding:16, background: expanded===i?'var(--bg-surface-2)':'transparent', border:'none', borderBottom:'1px solid var(--border-subtle)', color:'inherit', cursor:'pointer', textAlign:'start', fontFamily:'inherit'}}>
+                <div className="col grow" style={{gap:2}}>
+                  <div style={{fontSize:15, fontWeight:600}}>{g.course}</div>
+                  <div style={{fontSize:12, color:'var(--text-tertiary)'}}>درجة المعلم</div>
+                </div>
+                <div className="num" style={{fontSize:20, fontWeight:700, color:'var(--text-primary)'}}>
+                  {score}<span style={{fontSize:14, color:'var(--text-secondary)', fontWeight:400}}>/30</span>
+                </div>
+                <Icon.ChevronDown size={16} style={{transform: expanded===i?'rotate(180deg)':'none', transition:'transform 200ms'}}/>
+              </button>
+              {expanded===i && (
+                <div style={{padding:'16px 20px', background:'var(--bg-base)'}}>
+                  {i===0 ? (
+                    <div className="col gap-3">
+                      <div className="row gap-3 items-center">
+                        <div style={{fontSize:13, color:'var(--text-secondary)'}}>الواجب الثاني</div>
+                        <div className="num" style={{fontWeight:600}}>23/25</div>
+                        <Pill kind="graded">تم التصحيح</Pill>
+                      </div>
+                      <div className="feedback-card" style={{padding:14}}>
+                        <div style={{fontSize:12, color:'var(--primary-300)', marginBottom:6}}>ملاحظة من الأستاذ أحمد الحارثي</div>
+                        <p style={{margin:0, fontSize:14, lineHeight:1.8}}>بحث جيد يا أحمد. التسلسل المنطقي واضح والاستشهادات القرآنية ملائمة. أتمنى في المرة القادمة أن تتوسع أكثر في الجانب التطبيقي للعقيدة في حياة المسلم اليومية.</p>
+                      </div>
                     </div>
-                    <div className="feedback-card" style={{padding:14}}>
-                      <div style={{fontSize:12, color:'var(--primary-300)', marginBottom:6}}>ملاحظة من الأستاذ أحمد الحارثي</div>
-                      <p style={{margin:0, fontSize:14, lineHeight:1.8}}>بحث جيد يا أحمد. التسلسل المنطقي واضح والاستشهادات القرآنية ملائمة. أتمنى في المرة القادمة أن تتوسع أكثر في الجانب التطبيقي للعقيدة في حياة المسلم اليومية.</p>
+                  ) : (
+                    <div style={{fontSize:13, color:'var(--text-secondary)'}}>
+                      آخر درجة صادرة: <span className="num">{score}/30</span>
                     </div>
-                  </div>
-                ) : (
-                  <div style={{fontSize:13, color:'var(--text-secondary)'}}>آخر درجة صادرة: <span className="num">{g.recent}</span></div>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

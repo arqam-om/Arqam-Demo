@@ -70,21 +70,20 @@ export function TeacherHome({ nav, setCourseId }: TBag) {
       <div className="card">
         <div className="section-head"><h2>جدولك اليوم</h2><button className="btn link" onClick={()=>nav('timetable')}>عرض الأسبوع</button></div>
         <div className="col gap-2">
-          {D.periods.map((p,i) => {
-            const cell = D.timetable11A[1][i];
-            const mine = cell.t?.includes('الحارثي');
-            return (
-              <div key={i} className="row gap-3 items-center" style={{padding:'10px 12px', borderRadius:8, background: mine?'var(--primary-900)':'transparent'}}>
-                <div className="num" style={{width:56, fontSize:13, color:'var(--text-secondary)', fontWeight:600}}>{p.time}</div>
-                <div style={{width:28, height:28, borderRadius:6, background: mine?'var(--primary-500)':'var(--bg-surface-3)', color: mine?'var(--text-inverse)':'var(--text-secondary)', display:'grid', placeItems:'center', fontSize:12, fontWeight:700, fontFamily:'Inter'}}>{p.n}</div>
+          {D.periods
+            .map((p, i) => ({ p, cell: D.timetable11A[1][i] }))
+            .filter(({ cell }) => cell.t?.includes('الحارثي'))
+            .map(({ p, cell }) => (
+              <div key={p.n} className="row gap-3 items-center" style={{padding:'12px 14px', borderRadius:8, background: cell.now?'var(--primary-900)':'var(--bg-surface-2)'}}>
+                <div className="num" style={{width:48, fontSize:13, color:'var(--text-secondary)', fontWeight:600}}>{p.time}</div>
+                <div style={{width:28, height:28, borderRadius:6, background:'var(--primary-500)', color:'var(--text-inverse)', display:'grid', placeItems:'center', fontSize:12, fontWeight:700, fontFamily:'Inter'}}>{p.n}</div>
                 <div className="col grow" style={{gap:2}}>
-                  <div style={{fontSize:14, fontWeight: mine?600:500}}>{mine?cell.s+' — الصف 11أ':(cell.k==='flex'?'فراغ':cell.s)}</div>
-                  <div style={{fontSize:12, color:'var(--text-tertiary)'}}>{mine?'قاعة 204':'—'}</div>
+                  <div style={{fontSize:14, fontWeight:600}}>{cell.s} — الصف 11أ</div>
+                  <div style={{fontSize:12, color:'var(--text-tertiary)'}}>قاعة 204</div>
                 </div>
-                {cell.now && mine && <Pill kind="accent">الآن</Pill>}
+                {cell.now && <Pill kind="accent">الآن</Pill>}
               </div>
-            );
-          })}
+            ))}
         </div>
       </div>
     </div>
@@ -553,8 +552,8 @@ export function SubmissionInbox({ nav }: TBag) {
                 </div>
                 <div className="row gap-2">
                   <button className="btn secondary sm"><Icon.Download size={14}/>تحميل</button>
-                  <button className="btn ghost sm"><Icon.ChevronRight size={14}/>السابق</button>
-                  <button className="btn ghost sm">التالي<Icon.ChevronLeft size={14}/></button>
+                  <button className="btn ghost sm"><Icon.ChevronLeft size={14}/>السابق</button>
+                  <button className="btn ghost sm">التالي<Icon.ChevronRight size={14}/></button>
                 </div>
               </div>
               <div className="pdf-preview" style={{flex:1, minHeight:300}}>

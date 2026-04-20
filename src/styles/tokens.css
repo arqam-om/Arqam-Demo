@@ -254,25 +254,7 @@ body {
 }
 
 /* Toast */
-.toast-wrap {
-  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
-  z-index: 1000; display: flex; flex-direction: column; gap: 8px;
-  pointer-events: none;
-}
-.toast {
-  background: var(--success-900);
-  color: var(--success-500);
-  border: 1px solid color-mix(in oklab, var(--success-500) 30%, transparent);
-  border-radius: var(--radius-md);
-  padding: 10px 16px;
-  font-size: 14px;
-  display: flex; align-items: center; gap: 8px;
-  box-shadow: var(--shadow-md);
-  pointer-events: auto;
-  animation: toast-in 200ms ease-out;
-}
-.toast.error { background: var(--danger-900); color: var(--danger-500); border-color: color-mix(in oklab, var(--danger-500) 30%, transparent); }
-@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+/* toast — defined once in app-ext.css */
 
 /* Avatar */
 .avatar {

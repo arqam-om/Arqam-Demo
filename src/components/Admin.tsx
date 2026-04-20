@@ -71,7 +71,7 @@ export function AdminSettings() {
             <div className="field"><label>اسم المعهد</label><input className="input" defaultValue="معهد مسقط للعلوم الإسلامية"/></div>
             <div className="field"><label>الاسم المختصر</label><input className="input" defaultValue="م.م.ع.إ"/></div>
             <div className="field"><label>العنوان</label><input className="input" defaultValue="شارع السلام، مسقط، سلطنة عُمان"/></div>
-            <div className="field"><label>بريد التواصل</label><input className="input latin" defaultValue="info@mis.edu.om"/></div>
+            <div className="field"><label>بريد التواصل</label><input className="input latin" defaultValue="info@arqam.edu.om"/></div>
             <div className="field"><label>الشعار</label><button className="btn secondary"><Icon.Upload size={14}/>تحميل شعار</button></div>
           </div>
         </div>
@@ -126,9 +126,9 @@ export function AdminGrades({ nav }: ABag) {
 
 export function AdminEnrollment({ nav }: ABag) {
   const avail = [
-    {n:'خميس بن ناصر اللواتي',      e:'khamees.lawati@mis.edu.om',  i:'خ'},
-    {n:'حمود بن سعيد الهنائي',       e:'hamood.hinai@mis.edu.om',     i:'ح'},
-    {n:'يعقوب بن عادل البوسعيدي',    e:'yaqoub.busaidi@mis.edu.om',   i:'ي'},
+    {n:'خميس بن ناصر اللواتي',      e:'khamees.lawati@arqam.edu.om',  i:'خ'},
+    {n:'حمود بن سعيد الهنائي',       e:'hamood.hinai@arqam.edu.om',     i:'ح'},
+    {n:'يعقوب بن عادل البوسعيدي',    e:'yaqoub.busaidi@arqam.edu.om',   i:'ي'},
   ];
   return (
     <div className="col gap-5">
@@ -144,7 +144,7 @@ export function AdminEnrollment({ nav }: ABag) {
                 <tr key={s.id}>
                   <td className="num">{i+1}</td>
                   <td className="row gap-2 items-center"><div className="avatar sm">{s.initial}</div><span>{s.short}</span></td>
-                  <td className="latin" style={{fontSize:12, color:'var(--text-secondary)'}}>{s.short.split(' ').join('.').toLowerCase()}@mis.edu.om</td>
+                  <td className="latin" style={{fontSize:12, color:'var(--text-secondary)'}}>{s.short.split(' ').join('.').toLowerCase()}@arqam.edu.om</td>
                   <td className="latin num" style={{fontSize:12, color:'var(--text-tertiary)'}}>2025-09-01</td>
                   <td><button className="btn ghost sm" style={{color:'var(--danger-500)'}}>إزالة</button></td>
                 </tr>
@@ -280,7 +280,7 @@ function CreateUserModal({ onClose }: { onClose: ()=>void }) {
           <div className="field grow"><label>الاسم الكامل</label><input className="input" placeholder="مثال: أحمد بن سالم الكندي"/></div>
           <div className="field grow"><label>الاسم المختصر</label><input className="input" placeholder="مثال: أحمد الكندي"/></div>
         </div>
-        <div className="field"><label>البريد الإلكتروني</label><input className="input latin" placeholder="name@mis.edu.om"/></div>
+        <div className="field"><label>البريد الإلكتروني</label><input className="input latin" placeholder="name@arqam.edu.om"/></div>
         {role==='student' && (
           <div className="row gap-3">
             <div className="field grow"><label>الصف</label><select className="select"><option>الصف 10</option><option>الصف 11</option><option>الصف 12</option></select></div>
