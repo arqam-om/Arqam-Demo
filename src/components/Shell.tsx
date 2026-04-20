@@ -3,17 +3,66 @@ import { Icon, IconByName } from './Icons';
 import { ToastCtx, useToast } from '../context';
 import type { AuthUser, NavItem } from '../context';
 
-// ===== Logo =====
+// ===== Logo mark (SVG only, no text) =====
+function ArqamMark({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-label="شعار أرقم">
+      {/* Arch — teal */}
+      <path d="M20 3 C 12 3, 6 9, 6 18 L 6 34 L 34 34 L 34 18 C 34 9, 28 3, 20 3 Z"
+            stroke="#2A9D93" strokeWidth="2" fill="none"/>
+      {/* Diamond — royal gold */}
+      <path d="M12 20 L 20 15 L 28 20 L 28 30 L 20 27 L 12 30 Z" fill="#D4AF37"/>
+      {/* Center spine */}
+      <line x1="20" y1="15" x2="20" y2="27" stroke="#050C0A" strokeWidth="1.3"/>
+    </svg>
+  );
+}
+
+// ===== Logo (mark + wordmark) — used in topbar =====
 export function ArqamLogo({ size = 28 }: { size?: number }) {
   return (
     <div className="row gap-2 items-center">
-      <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-label="شعار أرقم">
-        <path d="M20 3 C 12 3, 6 9, 6 18 L 6 34 L 34 34 L 34 18 C 34 9, 28 3, 20 3 Z"
-              stroke="#3EA89E" strokeWidth="2.2" fill="none"/>
-        <path d="M12 20 L 20 16 L 28 20 L 28 30 L 20 28 L 12 30 Z" fill="#C9A961" opacity="0.95"/>
-        <line x1="20" y1="16" x2="20" y2="28" stroke="#0A0F0F" strokeWidth="1.2"/>
-      </svg>
-      <span style={{fontSize:18, fontWeight:700, color:'var(--text-primary)'}}>أرقم</span>
+      <ArqamMark size={size}/>
+      <span style={{fontSize: Math.max(14, size * 0.62), fontWeight: 700, color: 'var(--text-primary)', letterSpacing: 0}}>أرقم</span>
+    </div>
+  );
+}
+
+// ===== Brand lockup — used on auth screens =====
+export function ArqamBrand({ size = 80 }: { size?: number }) {
+  return (
+    <div className="col center gap-5" style={{textAlign:'center'}}>
+      {/* Mark inside a double ring — teal outer, gold inner */}
+      <div style={{position:'relative', display:'inline-flex', alignItems:'center', justifyContent:'center'}}>
+        {/* Outer glow ring */}
+        <div style={{
+          position:'absolute',
+          width: size + 56, height: size + 56,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 70%)',
+          border: '1px solid rgba(212,175,55,0.1)',
+        }}/>
+        {/* Inner ring */}
+        <div style={{
+          width: size + 28, height: size + 28,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(42,157,147,0.1) 0%, transparent 70%)',
+          border: '1px solid rgba(212,175,55,0.18)',
+          display:'grid', placeItems:'center',
+          boxShadow: '0 0 32px rgba(212,175,55,0.08), 0 0 60px rgba(42,157,147,0.06)',
+        }}>
+          <ArqamMark size={size}/>
+        </div>
+      </div>
+      {/* Wordmark — royal gold */}
+      <div style={{
+        fontFamily: 'var(--font-heading)',
+        fontSize: 46, fontWeight: 700, lineHeight: 1,
+        color: '#D4AF37',
+        letterSpacing: 0,
+      }}>
+        أرقم
+      </div>
     </div>
   );
 }

@@ -1,129 +1,175 @@
+/* ══════════════════════════════════════════
+   SUPERVISOR / ADMIN EXTENDED COMPONENTS
+══════════════════════════════════════════ */
 
-/* ============ Added: supervisor/admin/homes ============ */
+/* Quick action buttons (Admin home) */
 .quick-action {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px; background: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
-  color: var(--text-primary); cursor: pointer; text-align: start;
-  font: inherit; transition: all var(--motion-fast);
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary); cursor: pointer;
+  text-align: start; font-family: var(--font-body);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--motion-fast);
 }
-.quick-action:hover { background: var(--bg-surface-3); border-color: var(--border-default); transform: translateY(-1px); }
+.quick-action:hover {
+  background: var(--bg-surface-3);
+  border-color: rgba(42,157,147,0.3);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(42,157,147,0.12);
+  transform: translateY(-2px);
+}
+.quick-action:active { transform: translateY(0); }
 
+/* Role picker (user create modal) */
 .role-pick {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 14px; background: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
-  cursor: pointer; font-size: 13px; transition: all var(--motion-fast);
+  padding: 9px 14px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  cursor: pointer; font-size: 13px; font-weight: 500;
+  transition: all var(--motion-fast);
 }
-.role-pick.active { background: var(--primary-900); border-color: var(--primary-500); color: var(--primary-300); }
+.role-pick.active {
+  background: rgba(42,157,147,0.12);
+  border-color: rgba(42,157,147,0.35);
+  color: var(--primary-300);
+}
 .role-pick input { accent-color: var(--primary-500); }
 
-.alert-card { border-color: color-mix(in oklab, var(--warning-500) 40%, var(--border-default)); }
+/* Alert card (warning state on supervisor/teacher cards) */
+.alert-card {
+  border-color: rgba(207,162,78,0.25) !important;
+  background: rgba(53,37,16,0.3) !important;
+}
 .alert-card::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
-  border-inline-start: 3px solid var(--warning-500); border-radius: var(--radius-md) 0 0 var(--radius-md);
+  border-inline-start: 3px solid var(--warning-500);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  border-top-right-radius: 0; border-bottom-right-radius: 0;
 }
 .card.alert-card { position: relative; }
 
+/* Grade histogram */
 .hist-wrap { display: flex; flex-direction: column; gap: 10px; }
-.hist-row { display: flex; align-items: center; gap: 12px; }
-.hist-label { width: 64px; font-size: 12px; color: var(--text-secondary); text-align: end; }
-.hist-bar-wrap { flex: 1; height: 18px; background: var(--bg-surface-2); border-radius: 4px; overflow: hidden; }
-.hist-bar { height: 100%; border-radius: 4px; transition: width var(--motion-base); }
+.hist-row  { display: flex; align-items: center; gap: 14px; }
+.hist-label {
+  width: 64px; font-size: 12px; font-weight: 600;
+  color: var(--text-secondary); text-align: end;
+  font-family: var(--font-latin);
+}
+.hist-bar-wrap {
+  flex: 1; height: 20px;
+  background: var(--bg-surface-3);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+.hist-bar {
+  height: 100%; border-radius: var(--radius-sm);
+  transition: width 400ms cubic-bezier(0.25, 0, 0, 1);
+}
 
-.tt-cell.editable { cursor: pointer; border-style: dashed; }
-.tt-cell.editable:hover { background: var(--primary-900); border-color: var(--primary-500); }
-
-/* Band classes reused */
-.band-high { color: var(--success-500); }
-.band-mid-high { color: var(--accent-500); }
-.band-mid { color: var(--warning-500); }
-.band-low { color: var(--danger-500); }
+/* Timetable editable cell */
+.tt-cell.editable { cursor: pointer; border: 1px dashed var(--border-default); }
+.tt-cell.editable:hover {
+  background: rgba(42,157,147,0.1);
+  border-color: rgba(42,157,147,0.4);
+  border-style: solid;
+}
 
 /* Notification drawer item */
 .notif-item {
-  display: flex; align-items: flex-start; gap: 12px;
+  display: flex; align-items: flex-start; gap: 13px;
   padding: 14px 20px;
   border-bottom: 1px solid var(--border-subtle);
 }
-.notif-item:hover { background: var(--bg-surface-2); }
+.notif-item:hover { background: rgba(42,157,147,0.04); }
 .notif-ico {
-  width: 32px; height: 32px; border-radius: var(--radius-sm);
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
   display: grid; place-items: center; flex-shrink: 0;
-  background: var(--bg-surface-3); color: var(--text-secondary);
+  border: 1px solid transparent;
 }
+
+/* Global search labels */
 .search-group-label {
-  padding: 10px 16px 6px; font-size: 11px; font-weight: 600;
-  color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 10px 16px 6px;
+  font-size: 10px; font-weight: 700;
+  color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em;
 }
 .search-row {
   display: flex; align-items: center; gap: 12px;
-  padding: 10px 16px; width: 100%; background: none; border: none;
+  padding: 10px 16px; width: 100%;
+  background: none; border: none;
   color: inherit; cursor: pointer; text-align: start; font: inherit;
 }
-.search-row:hover { background: var(--bg-surface-2); }
+.search-row:hover { background: rgba(42,157,147,0.06); }
 
-kbd {
-  display: inline-block; padding: 2px 6px; font-size: 11px;
-  background: var(--bg-surface-2); border: 1px solid var(--border-default);
-  border-radius: 4px; color: var(--text-secondary); font-family: 'Inter';
-}
-
-/* Stat card icon */
+/* Stat card icon (overrides tokens.css for extended contexts) */
 .stat-ico {
-  width: 36px; height: 36px; border-radius: var(--radius-sm);
-  display: grid; place-items: center;
-  background: var(--bg-surface-3); color: var(--primary-300); flex-shrink: 0;
+  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  display: grid; place-items: center; flex-shrink: 0;
+  background: rgba(42,157,147,0.1);
+  border: 1px solid rgba(42,157,147,0.15);
+  color: var(--primary-300);
 }
 
-/* Toast */
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
 .toast-wrap {
   position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 32px; left: 50%; transform: translateX(-50%);
   z-index: 2000;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  pointer-events: none;
+  display: flex; flex-direction: column; gap: 8px;
+  align-items: center; pointer-events: none;
 }
 .toast {
   pointer-events: auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 20px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 22px;
   background: var(--bg-surface-3);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 8px 32px rgba(0,0,0,0.55),
+    0 2px 8px rgba(0,0,0,0.3);
   color: var(--text-primary);
-  font-size: 15px;
-  font-weight: 500;
-  white-space: nowrap;
-  min-width: 260px;
-  max-width: 480px;
-  white-space: normal;
-  animation: toast-in 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 14px; font-weight: 500;
+  min-width: 280px; max-width: 480px; white-space: normal;
+  animation: toast-in 240ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 .toast .toast-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  background: color-mix(in oklab, var(--success-500) 15%, transparent);
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  display: grid; place-items: center; flex-shrink: 0;
+  background: rgba(82,184,122,0.12);
   color: var(--success-500);
+  border: 1px solid rgba(82,184,122,0.2);
+}
+.toast.error {
+  border-color: rgba(204,107,107,0.35);
 }
 .toast.error .toast-icon {
-  background: color-mix(in oklab, var(--danger-500) 15%, transparent);
-  color: var(--danger-500);
+  background: rgba(204,107,107,0.12); color: var(--danger-500);
+  border-color: rgba(204,107,107,0.2);
 }
-.toast.error { border-color: color-mix(in oklab, var(--danger-500) 40%, var(--border-strong)); }
 @keyframes toast-in {
-  from { opacity: 0; transform: translateY(12px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+  from { opacity: 0; transform: translateY(14px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ══════════════════════════════════════════
+   ADDITIONAL TYPOGRAPHY / HELPERS
+══════════════════════════════════════════ */
+
+/* Kbd shortcut strip */
+kbd {
+  display: inline-block; padding: 2px 7px; font-size: 11px;
+  background: var(--bg-surface-3);
+  border: 1px solid var(--border-default); border-bottom-width: 2px;
+  border-radius: var(--radius-xs); color: var(--text-secondary);
+  font-family: var(--font-latin);
 }
