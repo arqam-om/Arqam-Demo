@@ -21,7 +21,7 @@ export function TeacherHome({ nav, setCourseId }: TBag) {
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.ClipboardList} label="واجبات تحتاج تصحيحاً" value="17" sub="موزعة على 3 شعب" accent="var(--warning-500)" onClick={()=>nav('grading')}/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.BookOpen} label="الدروس المسودّة" value="5" sub="تحتاج نشراً"/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Users} label="إجمالي طلابك" value="88" sub="في 4 شعب"/></div>
-        <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Clock} label="حصصك اليوم" value="6" sub="القادمة: 11أ - 08:15"/></div>
+        <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Clock} label="حصصك اليوم" value="1" sub="القادمة: 11أ - 07:50"/></div>
       </div>
 
       <div className="row gap-5 wrap items-start">

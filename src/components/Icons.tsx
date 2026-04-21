@@ -9,6 +9,7 @@ import {
   CheckCircle, Sigma, Leaf, Atom, Compass, Languages, PenTool,
   LogOut, GripVertical, Award, TrendingUp, BarChart, ClipboardList,
   Grid, School, Sparkles, Command, Cloud, BookMarked,
+  Sun, Moon,
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import React from 'react';
@@ -48,6 +49,7 @@ export const Icon = {
   Logout: flipped(LogOut),
   GripVertical, Award, TrendingUp, BarChart, ClipboardList,
   Grid, School, Sparkles, Command, Cloud, BookMarked,
+  Sun, Moon,
   Flask,
   StarOrnament,
 };

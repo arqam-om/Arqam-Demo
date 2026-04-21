@@ -21,7 +21,7 @@ export const NAV: Record<string, NavItem[]> = {
   ],
   supervisor: [
     { key:'home',          label:'الرئيسية',          icon: Icon.Home },
-    { key:'teachers',      label:'المعلمون في نطاقي', icon: Icon.Users },
+    { key:'teachers',      label:'المعلمون', icon: Icon.Users },
     { key:'courses',       label:'المواد',            icon: Icon.BookOpen },
     { key:'students',      label:'الطلاب',            icon: Icon.School },
     { key:'reports',       label:'التقارير',          icon: Icon.BarChart },

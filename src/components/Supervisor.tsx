@@ -20,7 +20,7 @@ export function SupervisorHome({ nav }: SBag) {
       </div>
 
       <div className="row gap-4 wrap">
-        <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Users} label="المعلمون في نطاقي" value="3" sub="6 شعب إجمالاً"/></div>
+        <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.Users} label="المعلمون تحت إشرافي" value="3" sub="6 شعب إجمالاً"/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.School} label="إجمالي الطلاب" value="132" sub="موزعة على 6 شعب"/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.TrendingUp} label="متوسط النطاق" value={avgOfAvgs+'%'} sub="مستقر مقارنة بالشهر الماضي"/></div>
         <div style={{flex:'1 1 220px'}}><StatCard icon={Icon.AlertTriangle} label="تنبيهات" value="2" sub="تحتاج مراجعتك" accent="var(--warning-500)" onClick={()=>nav('reports')}/></div>
@@ -42,7 +42,7 @@ export function SupervisorHome({ nav }: SBag) {
 
       <div className="row gap-5 wrap items-start">
         <div className="card grow" style={{flex:'2 1 520px'}}>
-          <div className="section-head"><h2>الشعب في نطاقي</h2><button className="btn link" onClick={()=>nav('courses')}>عرض التفاصيل</button></div>
+          <div className="section-head"><h2>الشعب تحت إشرافي</h2><button className="btn link" onClick={()=>nav('courses')}>عرض التفاصيل</button></div>
           <table className="tbl">
             <thead><tr><th>الشعبة</th><th>المعلم</th><th>المتوسط</th><th>الوسيط</th><th>الحالة</th></tr></thead>
             <tbody>
@@ -86,7 +86,7 @@ export function SupervisorTeachers({ nav, setTeacherFocus }: SBag) {
   ];
   return (
     <div className="col gap-5">
-      <div className="page-header"><div><h1 className="page-title">المعلمون في نطاقي</h1><p className="page-sub"><span className="num">3</span> معلمين · <span className="num">132</span> طالب</p></div></div>
+      <div className="page-header"><div><h1 className="page-title">المعلمون تحت إشرافي</h1><p className="page-sub"><span className="num">3</span> معلمين · <span className="num">132</span> طالب</p></div></div>
       <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(340px, 1fr))', gap:16}}>
         {teachers.map(t => (
           <div key={t.id} className={'card clickable' + (t.state==='alert'?' alert-card':'')} onClick={()=>{setTeacherFocus(t.id); nav('teacher-detail');}}>
@@ -134,7 +134,7 @@ export function SupervisorCourses({ nav, setTeacherFocus }: SBag) {
     <div className="col gap-5">
       <div className="page-header">
         <div>
-          <h1 className="page-title">المواد في نطاقي</h1>
+          <h1 className="page-title">المواد تحت إشرافي</h1>
           <p className="page-sub">التربية الإسلامية - الصفوف 10، 11، 12 · <span className="num">{courses.length}</span> شعبة-مادة</p>
         </div>
       </div>
@@ -216,7 +216,7 @@ export function SupervisorTeacherDetail({ nav }: SBag) {
         <table className="tbl">
           <thead><tr><th>الشعبة</th><th>الطلاب</th><th>المتوسط</th><th>الوسيط</th><th>المصحَّح</th><th></th></tr></thead>
           <tbody>
-            <tr><td><b>12أ</b></td><td><span className="num">22</span></td><td><span className="num band-mid" style={{fontWeight:700}}>68%</span> <Pill kind="late">شاذ</Pill></td><td><span className="num">70%</span></td><td>18/22</td><td><button className="btn ghost sm" onClick={()=>nav('course-drill')}>تفاصيل</button></td></tr>
+            <tr><td><b>12أ</b></td><td><span className="num">22</span></td><td><span className="num band-mid" style={{fontWeight:700}}>68%</span> <Pill kind="late">غير معتاد</Pill></td><td><span className="num">70%</span></td><td>18/22</td><td><button className="btn ghost sm" onClick={()=>nav('course-drill')}>تفاصيل</button></td></tr>
             <tr><td><b>12ب</b></td><td><span className="num">22</span></td><td><span className="num band-mid-high" style={{fontWeight:700}}>78%</span></td><td><span className="num">79%</span></td><td>21/22</td><td><button className="btn ghost sm" onClick={()=>nav('course-drill')}>تفاصيل</button></td></tr>
           </tbody>
         </table>
@@ -333,7 +333,7 @@ export function SupervisorReports() {
 export function SupervisorNotes({ nav }: SBag) {
   return (
     <div className="col gap-5">
-      <div className="page-header"><div><h1 className="page-title">ملاحظاتي</h1><p className="page-sub">ملاحظاتك الخاصة عن المعلمين والطلاب في نطاقك - خاصة بك فقط</p></div><button className="btn primary" onClick={()=>nav('note-compose')}><Icon.Plus size={14}/>ملاحظة جديدة</button></div>
+      <div className="page-header"><div><h1 className="page-title">ملاحظاتي</h1><p className="page-sub">ملاحظاتك الخاصة عن المعلمين والطلاب تحت إشرافك - خاصة بك فقط</p></div><button className="btn primary" onClick={()=>nav('note-compose')}><Icon.Plus size={14}/>ملاحظة جديدة</button></div>
       <div className="col gap-3">
         {D.supervisorNotes.map((n,i) => (
           <div key={i} className="card">
@@ -398,7 +398,7 @@ export function SupervisorNoteCompose({ nav }: SBag) {
 export function SupervisorStudentsList() {
   return (
     <div className="col gap-5">
-      <div className="page-header"><div><h1 className="page-title">طلاب نطاقي</h1><p className="page-sub"><span className="num">132</span> طالب · <span className="num">11</span> يحتاجون متابعة</p></div></div>
+      <div className="page-header"><div><h1 className="page-title">الطلاب تحت إشرافي</h1><p className="page-sub"><span className="num">10</span> طلاب · <span className="num">2</span> يحتاجون متابعة</p></div></div>
       <div className="card">
         <table className="tbl">
           <thead><tr><th>الطالب</th><th>الشعبة</th><th>المعلم</th><th>المتوسط</th><th>الحالة</th></tr></thead>
@@ -423,7 +423,7 @@ export function SupervisorAnnouncements({ nav }: SBag) {
   const ann = D.announcements.filter(a => a.role==='supervisor' || a.scope==='teachers-only');
   return (
     <div className="col gap-5">
-      <div className="page-header"><div><h1 className="page-title">الإعلانات</h1><p className="page-sub">إعلاناتك للمعلمين في نطاقك</p></div><button className="btn primary" onClick={()=>nav('announce-compose')}><Icon.Plus size={14}/>إعلان جديد</button></div>
+      <div className="page-header"><div><h1 className="page-title">الإعلانات</h1><p className="page-sub">إعلاناتك للمعلمين تحت إشرافك</p></div><button className="btn primary" onClick={()=>nav('announce-compose')}><Icon.Plus size={14}/>إعلان جديد</button></div>
       <div className="col gap-3">
         {ann.map((a,i) => (
           <div key={i} className="ann-card">
@@ -464,7 +464,7 @@ export function SupervisorProfile() {
             <div className="field"><label>اللغة</label><select className="select"><option>العربية</option></select></div>
             <div className="field"><label>إشعارات</label>
               <div className="col gap-2" style={{fontSize:14}}>
-                <label className="row gap-2 items-center"><input type="checkbox" defaultChecked/><span>تنبيهات الأداء الشاذ</span></label>
+                <label className="row gap-2 items-center"><input type="checkbox" defaultChecked/><span>تنبيهات الأداء غير المعتاد</span></label>
                 <label className="row gap-2 items-center"><input type="checkbox" defaultChecked/><span>الإعلانات العامة من الإدارة</span></label>
                 <label className="row gap-2 items-center"><input type="checkbox"/><span>ملخص أسبوعي لنطاق الإشراف</span></label>
               </div>

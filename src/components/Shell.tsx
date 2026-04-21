@@ -23,7 +23,7 @@ export function ArqamLogo({ size = 28 }: { size?: number }) {
   return (
     <div className="row gap-2 items-center">
       <ArqamMark size={size}/>
-      <span style={{fontSize: Math.max(14, size * 0.62), fontWeight: 700, color: 'var(--text-primary)', letterSpacing: 0}}>أرقم</span>
+      <span style={{fontFamily:'var(--font-brand)', fontSize: Math.max(15, size * 0.66), fontWeight: 800, color: 'var(--text-primary)', letterSpacing: 0, lineHeight: 1}}>أرقم</span>
     </div>
   );
 }
@@ -54,11 +54,11 @@ export function ArqamBrand({ size = 80 }: { size?: number }) {
           <ArqamMark size={size}/>
         </div>
       </div>
-      {/* Wordmark - royal gold */}
+      {/* Wordmark - royal gold, Tajawal 800 */}
       <div style={{
-        fontFamily: 'var(--font-heading)',
-        fontSize: 46, fontWeight: 700, lineHeight: 1,
-        color: '#D4AF37',
+        fontFamily: 'var(--font-brand)',
+        fontSize: 52, fontWeight: 800, lineHeight: 1,
+        color: 'var(--accent-500)',
         letterSpacing: 0,
       }}>
         أرقم
@@ -68,8 +68,9 @@ export function ArqamBrand({ size = 80 }: { size?: number }) {
 }
 
 // ===== User Menu (dropdown from profile chip) =====
-function UserMenu({ user, viewRole, onRequestLogout, onSwitchRole }: {
+function UserMenu({ user, viewRole, onRequestLogout, onSwitchRole, theme, onToggleTheme }: {
   user: AuthUser; viewRole: string; onRequestLogout: () => void; onSwitchRole?: () => void;
+  theme: 'dark' | 'light'; onToggleTheme: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const [dropLeft, setDropLeft] = useState(8);
@@ -132,8 +133,16 @@ function UserMenu({ user, viewRole, onRequestLogout, onSwitchRole }: {
               </div>
             )}
 
+            {/* Theme toggle */}
+            <div style={{ padding: onSwitchRole ? '4px 8px' : '8px 8px 4px' }}>
+              <button className="user-menu-item" onClick={() => { onToggleTheme(); }}>
+                {theme === 'dark' ? <Icon.Sun size={15}/> : <Icon.Moon size={15}/>}
+                <span>{theme === 'dark' ? 'الوضع النهاري' : 'الوضع الليلي'}</span>
+              </button>
+            </div>
+
             {/* Logout */}
-            <div style={{ padding: onSwitchRole ? '4px 8px 8px' : '8px', borderTop: '1px solid var(--border-subtle)' }}>
+            <div style={{ padding: '4px 8px 8px', borderTop: '1px solid var(--border-subtle)' }}>
               <button className="user-menu-item danger" onClick={() => { onRequestLogout(); close(); }}>
                 <Icon.Logout size={15}/>
                 <span>تسجيل الخروج</span>
@@ -147,9 +156,10 @@ function UserMenu({ user, viewRole, onRequestLogout, onSwitchRole }: {
 }
 
 // ===== Topbar =====
-function Topbar({ user, viewRole, onOpenNotifications, onOpenSearch, unread = 0, onRequestLogout, onSwitchRole, onHome }: {
+function Topbar({ user, viewRole, onOpenNotifications, onOpenSearch, unread = 0, onRequestLogout, onSwitchRole, onHome, theme, onToggleTheme }: {
   user: AuthUser; viewRole: string; onOpenNotifications: () => void; onOpenSearch: () => void;
   unread?: number; onRequestLogout: () => void; onSwitchRole?: () => void; onHome: () => void;
+  theme: 'dark' | 'light'; onToggleTheme: () => void;
 }) {
   return (
     <header className="arq-topbar">
@@ -178,7 +188,7 @@ function Topbar({ user, viewRole, onOpenNotifications, onOpenSearch, unread = 0,
           <Icon.Bell size={18}/>
           {unread > 0 && <span className="arq-unread num">{unread}</span>}
         </button>
-        <UserMenu user={user} viewRole={viewRole} onRequestLogout={onRequestLogout} onSwitchRole={onSwitchRole}/>
+        <UserMenu user={user} viewRole={viewRole} onRequestLogout={onRequestLogout} onSwitchRole={onSwitchRole} theme={theme} onToggleTheme={onToggleTheme}/>
       </div>
     </header>
   );
@@ -407,10 +417,11 @@ function GlobalSearch({ onClose }: { onClose: () => void }) {
 }
 
 // ===== Shell =====
-export function Shell({ user, viewRole, navItems, activeKey, onNav, onLogout, onSwitchRole, children }: {
+export function Shell({ user, viewRole, navItems, activeKey, onNav, onLogout, onSwitchRole, children, theme, onToggleTheme }: {
   user: AuthUser; viewRole: string; navItems: NavItem[]; activeKey: string;
   onNav: (k: string) => void; onLogout: () => void;
   onSwitchRole?: () => void; children: React.ReactNode;
+  theme: 'dark' | 'light'; onToggleTheme: () => void;
 }) {
   const [showNotif, setShowNotif] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -440,7 +451,8 @@ export function Shell({ user, viewRole, navItems, activeKey, onNav, onLogout, on
       <div className="arq-shell">
         <Topbar user={user} viewRole={viewRole} onOpenNotifications={()=>setShowNotif(true)}
           onOpenSearch={()=>setShowSearch(true)} onRequestLogout={()=>setConfirmLogout(true)}
-          unread={unread} onSwitchRole={onSwitchRole} onHome={()=>onNav('home')}/>
+          unread={unread} onSwitchRole={onSwitchRole} onHome={()=>onNav('home')}
+          theme={theme} onToggleTheme={onToggleTheme}/>
         <div className="arq-body">
           <Sidebar activeKey={activeKey} onNav={onNav} items={navItems}/>
           <main className="arq-main">{children}</main>

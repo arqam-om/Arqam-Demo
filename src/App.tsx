@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Shell, AnnouncementCompose } from './components/Shell';
 import { LoginScreen } from './components/Auth';
 import { NAV } from './components/Nav';
@@ -45,6 +45,17 @@ export default function App() {
   const [lessonN, setLessonN] = useState(5);
   const [assignmentN, setAssignmentN] = useState(3);
   const [teacherFocus, setTeacherFocus] = useState<string | null>(null);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    const saved = (typeof localStorage !== 'undefined') ? localStorage.getItem('arqam-theme') : null;
+    return saved === 'light' ? 'light' : 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('arqam-theme', theme); } catch { /* ignore */ }
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
 
   if (!auth) {
     return (
@@ -143,7 +154,8 @@ export default function App() {
 
   return (
     <Shell user={user} viewRole={activeRole} navItems={navItems} activeKey={activeKey}
-      onNav={setScreen} onLogout={onLogout} onSwitchRole={onSwitchRole}>
+      onNav={setScreen} onLogout={onLogout} onSwitchRole={onSwitchRole}
+      theme={theme} onToggleTheme={toggleTheme}>
       {content}
     </Shell>
   );

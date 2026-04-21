@@ -70,7 +70,7 @@ export function AdminSettings() {
           <div className="col gap-4">
             <div className="field"><label>اسم المعهد</label><input className="input" defaultValue="معهد مسقط للعلوم الإسلامية"/></div>
             <div className="field"><label>الاسم المختصر</label><input className="input" defaultValue="م.م.ع.إ"/></div>
-            <div className="field"><label>العنوان</label><input className="input" defaultValue="شارع السلام، مسقط، سلطنة عُمان"/></div>
+            <div className="field"><label>العنوان</label><input className="input" defaultValue="مسقط، سلطنة عُمان"/></div>
             <div className="field"><label>بريد التواصل</label><input className="input latin" defaultValue="info@arqam.edu.om"/></div>
             <div className="field"><label>الشعار</label><button className="btn secondary"><Icon.Upload size={14}/>تحميل شعار</button></div>
           </div>
